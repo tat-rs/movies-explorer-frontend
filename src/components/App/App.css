@@ -6,4 +6,9 @@
   flex-direction: column;
   box-sizing: border-box;
   padding: 18px 40px;
+  font-family: 'Inter';
 }
+
+/* * {
+  outline: 1px solid red;
+} */

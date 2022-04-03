@@ -6,7 +6,7 @@ function Footer() {
   const currentYear = new Date().getFullYear(); //сохранен текущий год в переменной
   return (
     <footer className="footer">
-      <p class="footer__text">Учебный проект Яндекс.Практикум х BeatFilm.</p>
+      <p className="footer__text">Учебный проект Яндекс.Практикум х BeatFilm.</p>
       <div className="footer__container">
         <p className="footer__year">&#169;{currentYear}</p>
         <nav className="footer__nav">
