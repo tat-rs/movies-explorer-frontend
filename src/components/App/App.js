@@ -1,6 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
-import { Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
@@ -10,6 +9,8 @@ import Movies from "../Movies/Movies";
 import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import SavedMovies from "../SavedMovies/SavedMovies";
+
+import "./App.css";
 
 function App() {
   return (
