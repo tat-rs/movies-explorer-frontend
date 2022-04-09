@@ -1,0 +1,83 @@
+.project {
+  padding: 110px 30px;
+}
+
+.project__subtitle {
+  margin: 0 0 70px;
+}
+
+.subtitle {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: -0.04em;
+  padding-bottom: 23px;
+  border-bottom: 1px solid #000;
+}
+
+.project__list {
+  margin: 0 0 110px;
+  padding: 0;
+}
+
+.result {
+  display: flex;
+  list-style-type: none;
+}
+
+.result__item:not(:last-child) {
+  margin-right: 40px;
+}
+
+.result__subtitle {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.04em;
+  margin: 0 0 26px;
+}
+
+.result__text {
+  margin: 0;
+}
+
+.text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 143%;
+}
+
+.project__stages {
+  display: grid;
+  grid-template-columns: minmax(95px, 20%) minmax(95px, 1fr);
+  grid-template-rows: 36px 17px;
+  gap: 14px 0; 
+  font-style: normal;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}
+
+.project__time {
+  margin: 0;
+  font-weight: 400;
+  box-sizing: border-box;
+  padding: 9px 14px;
+}
+
+.project__time_color_blue {
+  background-color: #3456F3;
+  color: #fff;
+}
+
+.project__time_color_grey {
+  background-color: #F2F2F2;
+}
+
+.project__dev {
+  margin: 0;
+  color: #A0A0A0;
+}

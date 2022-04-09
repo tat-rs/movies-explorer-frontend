@@ -30,7 +30,6 @@
   text-decoration: none;
   box-sizing: border-box;
   padding: 8px 20px;
-  border: 1px solid #fff;
   border-radius: 3px;
   transition: border .3s;
 }
@@ -40,14 +39,11 @@
   background-color: #3456F3;
 }
 
-.header__link:hover {
-  border: 1px solid #3456F3;
-}
-
 .button {
   transition: opacity .3s
 }
 
 .button:hover {
   opacity: 0.8;
+  cursor: pointer;
 }
