@@ -55,7 +55,8 @@
 }
 
 .link {
-  transition: opacity .3s
+  transition: opacity .3s;
+  cursor: pointer;
 }
 
 .link:hover {

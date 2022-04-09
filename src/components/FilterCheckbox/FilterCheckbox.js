@@ -1,10 +1,10 @@
 import React from "react";
 
-function MoviesCard() {
+function FilterCheckbox() {
   return (
     <>
     </>
   )
 }
 
-export default MoviesCard
+export default FilterCheckbox

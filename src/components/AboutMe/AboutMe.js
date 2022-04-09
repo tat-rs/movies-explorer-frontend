@@ -19,10 +19,10 @@ function AboutMe() {
 и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.</p>
           <ul className="student__list list">
             <li className="list__item">
-              <Link className="list__link link">Facebook</Link>
+              <Link className="list__link link" to='/'>Facebook</Link>
             </li>
             <li className="list__item">
-            <Link className="list__link link">Github</Link>
+            <Link className="list__link link" to='/'>Github</Link>
             </li>
           </ul>
         </div>

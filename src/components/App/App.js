@@ -13,38 +13,43 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import "./App.css";
 
 function App() {
+
   return (
     <div className="page__content">
 
       <Header />
 
-      <Switch>
+      <main className="content">
 
-        <Route exact path='/'>
-          <Main />
-        </Route>
+        <Switch>
 
-        <Route path='/movies'>
-          <Movies />
-        </Route>
+          <Route exact path='/'>
+            <Main />
+          </Route>
 
-        <Route path='/saved-movies'>
-          <SavedMovies />
-        </Route>
+          <Route path='/movies'>
+            <Movies />
+          </Route>
 
-        <Route path='/profile'>
-          <Profile />
-        </Route>
+          <Route path='/saved-movies'>
+            <SavedMovies />
+          </Route>
 
-        <Route path='/signin'>
-          <Login />
-        </Route>
+          <Route path='/profile'>
+            <Profile />
+          </Route>
 
-        <Route path='/signup'>
-          <Register />
-        </Route>
+          <Route path='/signin'>
+            <Login />
+          </Route>
 
-      </Switch>
+          <Route path='/signup'>
+            <Register />
+          </Route>
+
+        </Switch>
+
+      </main>
 
       <Footer />
       
