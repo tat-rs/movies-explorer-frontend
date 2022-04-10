@@ -63,3 +63,21 @@
   color: #fff;
   min-width: 58.65px;
 }
+
+.search__checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 12px;
+  padding: 41px 0 69px;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.search__checkbox-text {
+  margin: 0;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 129%;
+}
