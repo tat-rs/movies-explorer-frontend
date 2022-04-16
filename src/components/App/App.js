@@ -40,7 +40,7 @@ function App() {
           </Route>
 
           <Route path='/signin'>
-            <Login />
+            <Login title="Рады видеть!" textOfButton="Войти" nameForm='sign-in' />
           </Route>
 
           <Route path='/signup'>
