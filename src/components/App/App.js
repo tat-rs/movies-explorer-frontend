@@ -44,7 +44,7 @@ function App() {
           </Route>
 
           <Route path='/signup'>
-            <Register />
+            <Register title="Добро пожаловать!" textOfButton="Зарегистрироваться" nameForm='sign-up'/>
           </Route>
 
         </Switch>

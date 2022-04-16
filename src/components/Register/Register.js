@@ -1,8 +1,12 @@
 import React from "react";
+import AuthForm from "../AuthForm/AuthForm";
 
-function Register() {
+import "./Register.css";
+
+function Register({nameForm, title, textOfButton}) {
   return (
     <>
+      <AuthForm title={title} textOfButton={textOfButton} nameForm={nameForm}/>
     </>
   )
 }

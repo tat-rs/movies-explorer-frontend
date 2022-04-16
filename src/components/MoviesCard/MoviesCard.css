@@ -1,0 +1,54 @@
+.card__image {
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+.card__container {
+  display: flex;
+  justify-content: space-between;
+  min-height: 45px;
+  box-sizing: border-box;
+  padding: 0 0 13px;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.card__title {
+  margin: 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  width: 226px;
+  max-height: 32px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.card__button {
+  background-color: #F4F4F4;
+  border-radius: 36px;
+  border: none;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.card__icon-like {
+  width: 10px;
+  height: 8.5px;
+}
+
+.card__icon-like_active path {
+  fill: #EE3465;
+}
+
+.card__duration {
+  margin: 0;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  display: flex;
+  color: #A0A0A0;
+  padding: 6px 0 0;
+}
