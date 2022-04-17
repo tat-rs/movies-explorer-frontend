@@ -8,6 +8,8 @@ import Pic3 from "../../images/pic-3.png";
 import Pic4 from "../../images/pic-4.png";
 
 import "./SavedMovies.css";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 
 const data = [
   {
@@ -26,10 +28,15 @@ const data = [
 
 function SavedMovies() {
   return (
-    <section className="movies">
-      <SearchForm />
-      <MoviesCardList data={data}/>
-    </section>
+    <>
+      <Header />
+        <section className="movies">
+          <SearchForm />
+          <MoviesCardList data={data}/>
+        </section>
+      <Footer />
+    </>
+    
   )
 }
 

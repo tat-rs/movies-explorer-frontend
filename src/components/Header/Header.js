@@ -1,8 +1,8 @@
 import React from "react";
 import { Switch, Route, Link, NavLink } from "react-router-dom";
 
-import LogoIcon from "../../images/logo.svg";
 import ProfileIcon from "../../images/profile.svg";
+import Logo from "../Logo/Logo";
 
 import "./Header.css";
 
@@ -12,11 +12,11 @@ function Header() {
         
     <header className="header page__header">
 
-      <Link to="/" className="logo">
-        <img className="logo__icon" src={LogoIcon} alt="Логотип" />
-      </Link>
+      <Logo />
 
       <Switch>
+
+        
 
         <Route exact path="/">
 

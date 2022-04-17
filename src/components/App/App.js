@@ -6,6 +6,7 @@ import Header from "../Header/Header";
 import Login from "../Login/Login";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import SavedMovies from "../SavedMovies/SavedMovies";
@@ -17,9 +18,9 @@ function App() {
   return (
     <div className="page__content">
 
-      <Header />
+      {/* <Header /> */}
 
-      <main className="content">
+      {/* <main className="content"> */}
 
         <Switch>
 
@@ -47,11 +48,15 @@ function App() {
             <Register title="Добро пожаловать!" textOfButton="Зарегистрироваться" nameForm='sign-up'/>
           </Route>
 
+          <Route path='/404'>
+            <NotFoundPage/>
+          </Route>
+
         </Switch>
 
-      </main>
+      {/* </main> */}
 
-      <Footer />
+      {/* <Footer /> */}
       
     </div>
   );

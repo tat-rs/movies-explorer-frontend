@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Logo from "../Logo/Logo";
 
 import "./AuthForm.css";
 
@@ -7,6 +8,7 @@ function AuthForm({nameForm, title, textOfButton, children, text, link, textOfLi
 
   return (
     <section className="auth-form">
+      <Logo className="auth-form__logo"/>
       <form className='form' name={nameForm}  onSubmit={() => {}} noValidate >
       <h2 className='form__title'>{title}</h2>
       <div className="form__items">
