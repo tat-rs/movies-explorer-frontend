@@ -1,0 +1,38 @@
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 23px;
+}
+
+.hamburger-btn__line {
+  display: block;
+  font-size: 0;
+  width: 23px;
+  height: 3px;
+  background-color: #000;
+}
+
+.hamburger-btn__line_left {
+  transform: translate(5px, 1px) rotate(45deg);
+  transform-origin: left top;
+  width: 28px;
+  background-color: red;
+}
+
+.hamburger-btn__line_right {
+  transform: translate(-3px, -21px) rotate(-45deg);
+  transform-origin: right bottom;
+  width: 28px;
+}
+
+.hamburger-btn__line_hidden {
+  display: none;
+}
+
+@media(max-width: 768px) {
+  .hamburger-btn {
+    display: flex;
+  }
+}

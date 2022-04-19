@@ -1,7 +1,7 @@
 .movies-list {
   list-style-type: none;
   margin: 0;
-  padding: 80px 0 0;
+  padding: 70px 0 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, 270px);
   gap: 38px 20px;

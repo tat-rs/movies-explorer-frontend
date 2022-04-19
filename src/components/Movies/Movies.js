@@ -7,9 +7,10 @@ import Pic2 from "../../images/pic-2.png";
 import Pic3 from "../../images/pic-3.png";
 import Pic4 from "../../images/pic-4.png";
 
-import "./Movies.css";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+
+import "./Movies.css";
 
 const data = [
   {
@@ -62,13 +63,14 @@ const data = [
   }
 ]
 
-function Movies() {
+function Movies(props) {
   return (
     <>
-    <Header />
+    <Header handleMenuClick={props.handleMenuClick}/>
       <section className="movies">
         <SearchForm />
         <MoviesCardList data={data}/>
+        <button className="movies__button button">Ещё</button>
       </section>
     <Footer />
     </>

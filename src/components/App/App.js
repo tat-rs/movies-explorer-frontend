@@ -1,8 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import Footer from "../Footer/Footer";
-import Header from "../Header/Header";
 import Login from "../Login/Login";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
@@ -14,6 +12,14 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import "./App.css";
 
 function App() {
+
+  const [isMenuOpen, setMenuOpen] = React.useState(false);
+
+  function handleMenuClick() {
+    setMenuOpen(!isMenuOpen)
+  }
+
+  console.log(isMenuOpen)
 
   return (
     <div className="page__content">
@@ -29,15 +35,15 @@ function App() {
           </Route>
 
           <Route path='/movies'>
-            <Movies />
+            <Movies handleMenuClick={handleMenuClick}/>
           </Route>
 
           <Route path='/saved-movies'>
-            <SavedMovies />
+            <SavedMovies handleMenuClick={handleMenuClick}/>
           </Route>
 
           <Route path='/profile'>
-            <Profile />
+            <Profile handleMenuClick={handleMenuClick}/>
           </Route>
 
           <Route path='/signin'>

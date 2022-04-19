@@ -1,6 +1,7 @@
 .input__container {
   display: flex;
   flex-direction: column;
+  margin: 0 0 6px;
 }
 
 .label {
@@ -16,10 +17,6 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
-}
-
-.input__container {
-  margin: 0 0 6px;
 }
 
 .error {

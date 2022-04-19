@@ -16,7 +16,7 @@ function Login({nameForm, title, textOfButton}) {
   }
 
   return (
-    <AuthForm title={title} textOfButton={textOfButton} nameForm={nameForm} text="Ещё не зарегистрированы?" textOfLink="Регистрация" link="/signup">
+    <AuthForm title={title} textOfButton={textOfButton} nameForm={nameForm} text="Ещё не зарегистрированы?" textOfLink="Регистрация" link="/sign">
       <Input 
         className='auth-form'
         id='user-email'
@@ -28,7 +28,7 @@ function Login({nameForm, title, textOfButton}) {
         required
       />
       <Input
-        className='auth-form'
+        className='auth-form input_not-underline'
         id='user-password'
         labelText='Пароль'
         type='password'

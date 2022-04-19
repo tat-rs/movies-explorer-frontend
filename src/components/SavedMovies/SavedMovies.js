@@ -26,10 +26,10 @@ const data = [
   },
 ]
 
-function SavedMovies() {
+function SavedMovies(props) {
   return (
     <>
-      <Header />
+      <Header handleMenuClick={props.handleMenuClick}/>
         <section className="movies">
           <SearchForm />
           <MoviesCardList data={data}/>

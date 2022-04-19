@@ -1,3 +1,17 @@
 .movies {
-  padding: 0 30px;
+  padding: 37px 30px 0;
+}
+
+.movies__button {
+  display: block;
+  min-width: 320px;
+  padding: 11px 0 9px;
+  margin: 50px auto 80px;
+  border: none;
+  background-color: #F4F4F4;
+  border-radius: 6px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
 }
