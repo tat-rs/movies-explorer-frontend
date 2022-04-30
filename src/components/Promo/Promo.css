@@ -4,6 +4,11 @@
   border-radius: 10px;
 }
 
+.page__promo {
+  max-width: 1200px;
+  margin: 0 auto 110px;
+}
+
 .promo__title {
   max-width: 730px;
   margin: 0 auto 151px;
@@ -16,17 +21,18 @@
   text-align: center;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
   .promo {
     padding: 350px 0 30px;
+  }
+
+  .page__promo {
+    margin: 0 auto 90px;
   }
 
   .promo__title {
     font-size: 40px;
     line-height: 130%;
-  }
-
-  .promo__title {
     max-width: 680px;
     margin: 0 auto 314px;
   }
@@ -35,6 +41,11 @@
 @media (max-width: 590px) {
   .promo {
     padding: 220px 0 17px;
+  }
+
+  .page__promo {
+    max-width: calc(100% - 28px);
+    margin: 0 auto 70px;
   }
 
   .promo__title {

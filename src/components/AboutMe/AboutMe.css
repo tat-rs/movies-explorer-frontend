@@ -1,5 +1,5 @@
-.student {
-  padding: 110px 30px 125px;
+.page__student {
+  margin: 0 0 100px;
 }
 
 .student__subtitle {
@@ -9,7 +9,7 @@
 .student__container {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 100px;
+  margin-bottom: 110px;
 }
 
 .student__info {
@@ -72,9 +72,13 @@
   border-radius: 10px;
 }
 
-@media (max-width: 1024px) {
-  .student {
+@media (max-width: 900px) {
+  /* .student {
     padding: 93px 30px 90px;
+  } */
+
+  .page__student {
+    margin: 0 0 70px;
   }
 
   .student__name {
@@ -105,15 +109,16 @@
   
 }
 
-@media (max-width: 750px) {
+@media (max-width: 768px) {
   .student__info {
     margin-right: 25px;
   }
 }
 
 @media (max-width: 590px) {
-  .student {
-    padding: 70px 0;
+
+  .page__student {
+    margin: 0 0 50px;
   }
 
   .student__subtitle {

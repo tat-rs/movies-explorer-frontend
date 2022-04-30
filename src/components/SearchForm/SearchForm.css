@@ -3,6 +3,14 @@
   position: relative;
 }
 
+.page__search {
+  margin: 0 0 80px;
+}
+
+.movies__search {
+  margin: 0 0 41px;
+}
+
 .search__label {
   width: 100%;
 }
@@ -64,8 +72,8 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  padding: 0 0 69px;
   gap: 12px;
-  padding: 41px 0 69px;
   border-bottom: 1px solid #E8E8E8;
 }
 
@@ -75,4 +83,37 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 129%;
+}
+
+@media (max-width: 900px) {
+  .movies-list {
+    gap: 30px;
+  }
+
+  .search__checkbox {
+    padding: 0 0 50px;
+  }
+}
+
+@media (max-width: 590px) {
+
+  .page__search {
+    margin: 0 0 50px;
+  }
+
+  .search__input {
+    padding: 14px 80px 14px 19px;
+    font-size: 11px;
+    line-height: 155%;
+  }
+
+  .search__checkbox-text {
+    font-size: 11px;
+    line-height: 164%;
+  }
+
+  .card__title {
+    font-size: 12px;
+    line-height: 15px;
+  }
 }

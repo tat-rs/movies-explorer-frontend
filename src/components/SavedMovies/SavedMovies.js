@@ -1,13 +1,9 @@
-import React from "react";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 
 import Pic1 from "../../images/pic-1.png";
 import Pic2 from "../../images/pic-2.png";
-import Pic3 from "../../images/pic-3.png";
-import Pic4 from "../../images/pic-4.png";
 
-import "./SavedMovies.css";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 
@@ -29,8 +25,8 @@ const data = [
 function SavedMovies(props) {
   return (
     <>
-      <Header handleMenuClick={props.handleMenuClick}/>
-        <section className="movies">
+      <Header handleMenuClick={props.handleMenuClick} isMenuOpen={props.isMenuOpen}/>
+        <section className="movies page__movies">
           <SearchForm />
           <MoviesCardList data={data}/>
         </section>

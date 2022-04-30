@@ -1,14 +1,15 @@
-import React from "react";
+import { useEffect, useState } from "react";
+
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import Preloader from "../Preloader/Preloader";
 
 import Pic1 from "../../images/pic-1.png";
 import Pic2 from "../../images/pic-2.png";
 import Pic3 from "../../images/pic-3.png";
 import Pic4 from "../../images/pic-4.png";
-
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
 
 import "./Movies.css";
 
@@ -64,13 +65,28 @@ const data = [
 ]
 
 function Movies(props) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000)
+  }, [])
   return (
     <>
-    <Header handleMenuClick={props.handleMenuClick}/>
-      <section className="movies">
+    <Header handleMenuClick={props.handleMenuClick} isMenuOpen={props.isMenuOpen}/>
+      <section className="movies page__movies">
         <SearchForm />
-        <MoviesCardList data={data}/>
-        <button className="movies__button button">Ещё</button>
+        {
+          isLoading ? (
+            <Preloader />
+          ) : (
+            <>
+              <MoviesCardList data={data}/>
+              <button className="movies__button button">Ещё</button>
+            </>
+          )
+        }
       </section>
     <Footer />
     </>

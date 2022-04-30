@@ -1,0 +1,22 @@
+.profile-btn {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #000;
+}
+
+.profile-btn__text {
+  margin: 0 17px 0 0;
+  padding: 7px 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 114%;
+}
+
+.profile-btn__icon {
+  box-sizing: border-box;
+  padding: 8px 7.25px;
+  background-color: #F4F4F4;
+  border-radius: 4px;
+}

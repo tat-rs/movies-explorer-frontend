@@ -1,4 +1,3 @@
-import React from "react";
 import Header from "../Header/Header";
 import Input from "../Input/Input";
 
@@ -8,25 +7,26 @@ function Profile(props) {
 
   return (
     <>
-    <Header handleMenuClick={props.handleMenuClick}/>
+    <Header handleMenuClick={props.handleMenuClick} isMenuOpen={props.isMenuOpen}/>
     <section className="profile">
       <h2 className="profile__title">Привет, Виталий!</h2>
       <form className="profile__form" name="editor-profile">
         <Input
-          className='profile'
-          id='user-name'
-          labelText='Имя'
-          type='text'
-          name='name'
+          className="profile"
+          id="user-name"
+          labelText="Имя"
+          type="text"
+          name="name"
           value="Виталий"
           onChange={() => { } }
           required />
+        <span className="profile__line"></span>
         <Input
-          className='profile'
-          id='user-email'
-          labelText='E-mail'
-          type='email'
-          name='email'
+          className="profile"
+          id="user-email"
+          labelText="E-mail"
+          type="email"
+          name="email"
           value="pochta@yandex.ru"
           onChange={() => { } }
           required />

@@ -14,12 +14,12 @@ function Input({
   error,
 }) {
   return (
-    <div className={`input__container ${className && `input__container_type_${className}`}`}>
-      <label className={`label ${className && `label_type_${className}`}`} htmlFor={id}>
+    <div className={`input__container ${className ? `input__container_type_${className}` : ''}`}>
+      <label className={`label ${className ? `label_type_${className}` : ''}`} htmlFor={id}>
         {labelText}
       </label>
       <input
-        className={`input ${className && `input_type_${className}`}`}
+        className={`input ${className ? `input_type_${className}` : ''}`}
         id={id}
         type={type}
         name={name}

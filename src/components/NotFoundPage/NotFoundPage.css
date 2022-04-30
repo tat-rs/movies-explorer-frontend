@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items:center;
-  padding: 228px 0 60px;
+  padding: 246px 0 60px;
 }
 
 .not-found__content {
@@ -38,7 +38,7 @@
   color: #3456F3;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
   .not-found {
     padding: 408px 0 222px;
   }
@@ -50,7 +50,7 @@
 
 @media (max-width: 590px) {
   .not-found {
-    padding: 329px 0 30px;
+    padding: 320px 0 30px;
   }
 
   .not-found__title {

@@ -1,5 +1,3 @@
-import React from "react";
-
 import MoviesCard from "../MoviesCard/MoviesCard";
 
 import "./MoviesCardList.css";
@@ -10,7 +8,11 @@ function MoviesCardList({data}) {
     <ul className="movies-list">
       {
         data.map((item) => (
-          <MoviesCard key={item.id} image={item.image} nameRU={item.nameRU} duration={item.duration} />
+          <MoviesCard
+            key={item.id}
+            image={item.image}
+            nameRU={item.nameRU}
+            duration={item.duration} />
         ))
       }
     </ul>

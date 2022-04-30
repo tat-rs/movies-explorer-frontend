@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 
 import Login from "../Login/Login";
@@ -13,56 +13,58 @@ import "./App.css";
 
 function App() {
 
-  const [isMenuOpen, setMenuOpen] = React.useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false);
 
   function handleMenuClick() {
     setMenuOpen(!isMenuOpen)
   }
 
-  console.log(isMenuOpen)
-
   return (
     <div className="page__content">
 
-      {/* <Header /> */}
-
-      {/* <main className="content"> */}
-
         <Switch>
 
-          <Route exact path='/'>
+          <Route exact path="/">
             <Main />
           </Route>
 
-          <Route path='/movies'>
-            <Movies handleMenuClick={handleMenuClick}/>
+          <Route path="/movies">
+            <Movies
+              handleMenuClick={handleMenuClick}
+              isMenuOpen={isMenuOpen}/>
           </Route>
 
-          <Route path='/saved-movies'>
-            <SavedMovies handleMenuClick={handleMenuClick}/>
+          <Route path="/saved-movies">
+            <SavedMovies
+              handleMenuClick={handleMenuClick}
+              isMenuOpen={isMenuOpen}/>
           </Route>
 
-          <Route path='/profile'>
-            <Profile handleMenuClick={handleMenuClick}/>
+          <Route path="/profile">
+            <Profile
+              handleMenuClick={handleMenuClick}
+              isMenuOpen={isMenuOpen}/>
           </Route>
 
-          <Route path='/signin'>
-            <Login title="Рады видеть!" textOfButton="Войти" nameForm='sign-in' />
+          <Route path="/signin">
+            <Login
+              title="Рады видеть!"
+              textOfButton="Войти"
+              nameForm="sign-in" />
           </Route>
 
-          <Route path='/signup'>
-            <Register title="Добро пожаловать!" textOfButton="Зарегистрироваться" nameForm='sign-up'/>
+          <Route path="/signup">
+            <Register
+            title="Добро пожаловать!"
+            textOfButton="Зарегистрироваться"
+            nameForm="sign-up"/>
           </Route>
 
-          <Route path='/404'>
+          <Route path="*">
             <NotFoundPage/>
           </Route>
 
         </Switch>
-
-      {/* </main> */}
-
-      {/* <Footer /> */}
       
     </div>
   );
