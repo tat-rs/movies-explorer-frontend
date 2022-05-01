@@ -3,13 +3,17 @@ import BtnDelete from "../../images/btn-delete.svg";
 
 import "./MoviesCard.css";
 
-function MoviesCard(props) {
+function MoviesCard({
+  image,
+  nameRu,
+  duration
+}) {
 
   return (
     <li className="card">
-      <img className="card__image" src={props.image} alt={props.nameRu}></img>
+      <img className="card__image" src={image} alt={nameRu}></img>
       <div className="card__container">
-        <h3 className="card__title">{props.nameRU}</h3>
+        <h3 className="card__title">{nameRu}</h3>
         <Switch>
           <Route path="/movies">
             <button className="card__button button" type="button">
@@ -25,7 +29,7 @@ function MoviesCard(props) {
           </Route>
         </Switch>
       </div>
-      <p className="card__duration">{props.duration}</p>
+      <p className="card__duration">{duration}</p>
     </li>
   )
 }

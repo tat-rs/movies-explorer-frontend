@@ -1,6 +1,5 @@
 .portfolio__title {
   margin: 0 0 30px;
-  font-style: normal;
   font-weight: 400;
   font-size: 18px;
   line-height: 111%;
@@ -16,7 +15,6 @@
 .portfolio__list-link {
   color: #000;
   text-decoration: none;
-  font-style: normal;
   font-weight: 400;
   font-size: 30px;
   line-height: 167%;

@@ -13,7 +13,6 @@
 
 .not-found__title {
   margin: 0 0 5px;
-  font-style: normal;
   font-weight: 400;
   font-size: 140px;
   line-height: 169px;
@@ -21,7 +20,6 @@
 
 .not-found__text {
   margin: 0 0 189px;
-  font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
@@ -31,7 +29,6 @@
   padding: 0;
   border: none;
   background-color: inherit;
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;

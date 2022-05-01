@@ -1,6 +1,7 @@
 .movies {
   box-sizing: border-box;
   padding: 40px 30px 80px;
+  flex-grow: 1;
 }
 
 .page__movies {

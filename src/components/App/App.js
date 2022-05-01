@@ -18,13 +18,14 @@ function App() {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const {lockScroll, unlockScroll} = useScrollLock();
 
-  function handleMenuClick() {
-    setMenuOpen(!isMenuOpen)
-    if(!isMenuOpen) {
-      return lockScroll()
-    } else {
-      return unlockScroll()
-    }
+  function openNavMenu() {
+    lockScroll()
+    setMenuOpen(true)
+  }
+
+  function closeNavMenu() {
+    unlockScroll()
+    setMenuOpen(false)
   }
 
   return (
@@ -38,19 +39,22 @@ function App() {
 
           <Route path="/movies">
             <Movies
-              handleMenuClick={handleMenuClick}
+              openNavMenu={openNavMenu}
+              closeNavMenu={closeNavMenu}
               isMenuOpen={isMenuOpen}/>
           </Route>
 
           <Route path="/saved-movies">
             <SavedMovies
-              handleMenuClick={handleMenuClick}
+              openNavMenu={openNavMenu}
+              closeNavMenu={closeNavMenu}
               isMenuOpen={isMenuOpen}/>
           </Route>
 
           <Route path="/profile">
             <Profile
-              handleMenuClick={handleMenuClick}
+              openNavMenu={openNavMenu}
+              closeNavMenu={closeNavMenu}
               isMenuOpen={isMenuOpen}/>
           </Route>
 

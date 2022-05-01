@@ -10,7 +10,6 @@
   box-sizing: border-box;
   padding: 79px 0 20px;
   border-bottom: 1px solid #E8E8E8;
-  font-style: normal;
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;
@@ -27,7 +26,6 @@
 
 .footer__year {
   margin: 0;
-  font-style: normal;
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;
@@ -42,7 +40,6 @@
 }
 
 .footer__nav-link {
-  font-style: normal;
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;

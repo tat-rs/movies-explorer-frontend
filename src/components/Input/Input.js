@@ -1,5 +1,3 @@
-import React from "react";
-
 import "./Input.css";
 
 function Input({
@@ -17,8 +15,7 @@ function Input({
     <div className={`input__container ${className ? `input__container_type_${className}` : ''}`}>
       <label className={`label ${className ? `label_type_${className}` : ''}`} htmlFor={id}>
         {labelText}
-      </label>
-      <input
+        <input
         className={`input ${className ? `input_type_${className}` : ''}`}
         id={id}
         type={type}
@@ -26,7 +23,8 @@ function Input({
         value={value}
         onChange={onChange}
         required={required} />
-        <span className="error">{error || ''}</span>
+      </label>
+      <span className={`error ${className ? `error_type_${className}` : ''}`}>{error || ''}</span>
     </div>
   )
 }

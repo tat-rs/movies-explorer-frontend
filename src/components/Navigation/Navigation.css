@@ -30,7 +30,6 @@
 .nav__profile-btn__text {
   margin: 0 17px 0 0;
   padding: 7px 0;
-  font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 114%;
@@ -62,18 +61,24 @@
   list-style-type: none;
   margin: 0;
   padding: 159px 0 0;
-  gap: 28px;
+  gap: 22px;
 }
 
 .navbar__item {
   width: fit-content;
   border-bottom: 2px solid #fff;
-  padding: 0 0 7px;
+  padding: 0 0 4px;
   text-align: center;
   font-weight: 500;
   font-size: 18px;
   line-height: 22px;
+  color: #000;
+  text-decoration: none;
   position: relative;
+}
+
+.navbar__item_active {
+  border-bottom: 2px solid #000;
 }
 
 .navbar__item:hover {

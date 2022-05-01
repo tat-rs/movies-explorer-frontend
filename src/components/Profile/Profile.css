@@ -7,7 +7,6 @@
 }
 
 .profile__title {
-  font-style: normal;
   font-weight: 500;
   font-size: 24px;
   line-height: 29px;
@@ -20,7 +19,10 @@
 }
 
 .label_type_profile {
-  margin-right: 10px;
+  width: 100%;
+  gap: 10px;
+  flex-direction: row;
+  justify-content: space-between;
   font-style: normal;
   font-weight: 500;
   font-size: 11px;
@@ -29,7 +31,6 @@
 }
 
 .input_type_profile {
-  font-style: normal;
   font-weight: 400;
   font-size: 11px;
   line-height: 13px;
@@ -42,9 +43,9 @@
   outline: none;
 }
 
-.input__container_type_profile {
-  flex-direction: row;
-  margin-bottom: 16px;
+.error_type_profile {
+  align-self: flex-end;
+  margin: 0;
 }
 
 .profile__line {
@@ -72,7 +73,6 @@
 .profile__button {
   border: none;
   background-color: inherit;
-  font-style: normal;
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;

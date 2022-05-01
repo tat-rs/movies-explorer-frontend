@@ -3,11 +3,19 @@ import Input from "../Input/Input";
 
 import "./Profile.css";
 
-function Profile(props) {
+function Profile({
+  openNavMenu,
+  closeNavMenu,
+  isMenuOpen
+}) {
 
   return (
     <>
-    <Header handleMenuClick={props.handleMenuClick} isMenuOpen={props.isMenuOpen}/>
+    <Header
+      openNavMenu={openNavMenu}
+      closeNavMenu={closeNavMenu}
+      isMenuOpen={isMenuOpen}/>
+      
     <section className="profile">
       <h2 className="profile__title">Привет, Виталий!</h2>
       <form className="profile__form" name="editor-profile">

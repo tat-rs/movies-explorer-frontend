@@ -22,14 +22,23 @@ const data = [
   },
 ]
 
-function SavedMovies(props) {
+function SavedMovies({
+  openNavMenu,
+  closeNavMenu,
+  isMenuOpen
+}) {
   return (
     <>
-      <Header handleMenuClick={props.handleMenuClick} isMenuOpen={props.isMenuOpen}/>
+      <Header
+        openNavMenu={openNavMenu}
+        closeNavMenu={closeNavMenu}
+        isMenuOpen={isMenuOpen}/>
+
         <section className="movies page__movies">
           <SearchForm />
           <MoviesCardList data={data}/>
         </section>
+        
       <Footer />
     </>
     

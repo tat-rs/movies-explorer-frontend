@@ -1,7 +1,6 @@
 .input__container {
   display: flex;
   flex-direction: column;
-  margin: 0 0 6px;
 }
 
 .label {
@@ -9,21 +8,24 @@
   font-size: 10px;
   line-height: 12px;
   color: #A0A0A0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0 0 6px;
 }
 
 .input {
   max-width: 100%;
-  font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
 }
 
 .error {
-  font-style: normal;
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
   color: #EE3465;
   min-height: 12px;
+  margin: 0 0 5px;
 }

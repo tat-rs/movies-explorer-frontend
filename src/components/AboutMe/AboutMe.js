@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
 import Portfolio from "../Portfolio/Portfolio";
-import StudentPhoto from "../../images/student.jpg";
-
-import "./AboutMe.css";
 import Title from "../Title/Title";
 import Container from "../Container/Container";
+
+import StudentPhoto from "../../images/student.jpg";
+import "./AboutMe.css";
 
 function AboutMe() {
   return (
@@ -22,14 +21,14 @@ function AboutMe() {
             </div>
             <ul className="student__list list">
               <li className="list__item">
-                <Link className="list__link link" to="/">Facebook</Link>
+                <a className="list__link link" href="https://facebook.com">Facebook</a>
               </li>
               <li className="list__item">
-              <Link className="list__link link" to="/">Github</Link>
+              <a className="list__link link" href="https://github.com/tat-rs">Github</a>
               </li>
             </ul>
           </div>
-          <img className="student__photo" src={StudentPhoto} alt="Фото студента"></img>
+          <img className="student__photo" src={StudentPhoto} alt="Фото студента" />
         </div>
         <Portfolio />
       </Container>

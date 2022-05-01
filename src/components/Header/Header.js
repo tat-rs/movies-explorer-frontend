@@ -7,7 +7,11 @@ import ProfileButton from "../ProfileButton/ProfileButton";
 
 import "./Header.css";
 
-function Header(props) {
+function Header({
+  openNavMenu,
+  closeNavMenu,
+  isMenuOpen
+}) {
 
   return (
 
@@ -45,12 +49,15 @@ function Header(props) {
           <ProfileButton className="profile-btn_type_header" />
           
           <HamburgerButton
-            isMenuOpen={props.isMenuOpen}
-            handleMenuClick={props.handleMenuClick}/>
+            openNavMenu={openNavMenu}
+            closeNavMenu={closeNavMenu}
+            isMenuOpen={isMenuOpen} />
             
           {
-            props.isMenuOpen && (
-              <Navigation isMenuOpen={props.isMenuOpen} />
+            isMenuOpen && (
+              <Navigation
+                closeNavMenu={closeNavMenu}
+                isMenuOpen={isMenuOpen} />
             )
           }
         </Route>

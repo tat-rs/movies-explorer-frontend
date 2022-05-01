@@ -64,7 +64,11 @@ const data = [
   }
 ]
 
-function Movies(props) {
+function Movies({
+  openNavMenu,
+  closeNavMenu,
+  isMenuOpen
+}) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -74,7 +78,11 @@ function Movies(props) {
   }, [])
   return (
     <>
-    <Header handleMenuClick={props.handleMenuClick} isMenuOpen={props.isMenuOpen}/>
+    <Header
+      openNavMenu={openNavMenu}
+      closeNavMenu={closeNavMenu}
+      isMenuOpen={isMenuOpen} />
+      
       <section className="movies page__movies">
         <SearchForm />
         {

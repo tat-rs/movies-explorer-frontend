@@ -4,6 +4,7 @@ import "./NotFoundPage.css";
 
 function NotFoundPage() {
   const history = useHistory();
+  
   return (
     <section className="not-found">
       <div className="not-found__content">

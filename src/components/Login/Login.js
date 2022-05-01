@@ -2,7 +2,11 @@ import { useState } from "react";
 import AuthForm from "../AuthForm/AuthForm";
 import Input from "../Input/Input";
 
-function Login({nameForm, title, textOfButton}) {
+function Login({
+  nameForm,
+  title,
+  textOfButton
+}) {
   const [values, setValues] = useState({});
 
   function handleChangeInput(evt) {

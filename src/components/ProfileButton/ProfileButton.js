@@ -4,7 +4,7 @@ import ProfileIcon from "../../images/profile.svg";
 
 import "./ProfileButton.css";
 
-function ProfileButton({className}) {
+function ProfileButton({ className }) {
   return (
     <Link
       to="/profile"

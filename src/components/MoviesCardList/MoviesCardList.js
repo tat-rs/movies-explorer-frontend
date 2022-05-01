@@ -2,7 +2,7 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 
 import "./MoviesCardList.css";
 
-function MoviesCardList({data}) {
+function MoviesCardList({ data }) {
   
   return (
     <ul className="movies-list">
