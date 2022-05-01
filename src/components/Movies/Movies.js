@@ -18,7 +18,7 @@ const data = [
     id: 1,
     image: Pic1,
     nameRU: "33 слова о дизайне",
-    duration: "1ч 42м",
+    duration: "1ч 20м",
   },
   {
     id: 2,
@@ -82,7 +82,7 @@ function Movies({
       openNavMenu={openNavMenu}
       closeNavMenu={closeNavMenu}
       isMenuOpen={isMenuOpen} />
-      
+
       <section className="movies page__movies">
         <SearchForm />
         {

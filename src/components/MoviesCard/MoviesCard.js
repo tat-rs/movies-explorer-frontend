@@ -5,15 +5,15 @@ import "./MoviesCard.css";
 
 function MoviesCard({
   image,
-  nameRu,
+  nameRU,
   duration
 }) {
 
   return (
     <li className="card">
-      <img className="card__image" src={image} alt={nameRu}></img>
+      <img className="card__image" src={image} alt={nameRU}></img>
       <div className="card__container">
-        <h3 className="card__title">{nameRu}</h3>
+        <h3 className="card__title">{nameRU}</h3>
         <Switch>
           <Route path="/movies">
             <button className="card__button button" type="button">
