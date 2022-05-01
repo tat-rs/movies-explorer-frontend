@@ -9,14 +9,22 @@ import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import SavedMovies from "../SavedMovies/SavedMovies";
 
+import {useScrollLock} from "../../hooks/useScroll";
+
 import "./App.css";
 
 function App() {
 
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const {lockScroll, unlockScroll} = useScrollLock();
 
   function handleMenuClick() {
     setMenuOpen(!isMenuOpen)
+    if(!isMenuOpen) {
+      return lockScroll()
+    } else {
+      return unlockScroll()
+    }
   }
 
   return (
