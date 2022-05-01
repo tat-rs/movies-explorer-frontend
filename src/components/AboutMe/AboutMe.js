@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Portfolio from "../Portfolio/Portfolio";
-import StudentPhoto from "../../images/student.png";
+import StudentPhoto from "../../images/student.jpg";
 
 import "./AboutMe.css";
 import Title from "../Title/Title";
@@ -15,11 +15,10 @@ function AboutMe() {
           <div className="student__info">
             <div className="student__container-info">
             <h3 className="student__name">
-              Виталий
+              Татьяна
             </h3>
-            <p className="student__about">Фронтенд-разработчик, 30 лет</p>
-            <p className="student__desc">Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена 
-  и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.</p>
+            <p className="student__about">Фронтенд-разработчик, 25 лет</p>
+            <p className="student__desc">Я родилась и живу в Раменском, закончила экономический факультет в РосНОУ. После окончания университета работала по специальности. В свободное время люблю читать детективы, слушать музыку, начинать заниматься йогой. Сейчас заканчиваю курс веб-разработки в Яндекс.Практикум :)</p>
             </div>
             <ul className="student__list list">
               <li className="list__item">
