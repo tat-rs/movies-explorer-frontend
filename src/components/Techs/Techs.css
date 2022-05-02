@@ -86,6 +86,7 @@
 @media (max-width: 590px) {
   .techs {
     padding: 70px 0;
+    background-color: inherit;
   }
 
   .page__techs {

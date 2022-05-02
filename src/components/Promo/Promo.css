@@ -12,12 +12,19 @@
 .promo__title {
   max-width: 730px;
   margin: 0 auto 151px;
-  padding: 0 10px;
+  box-sizing: border-box;
+  padding: 0 5px;
   font-weight: 400;
   font-size: 50px;
   line-height: 116%;
   letter-spacing: -0.04em;
   text-align: center;
+}
+
+@media (max-width: 1220px) {
+  .page__promo {
+    max-width: calc(100% - 60px);
+  }
 }
 
 @media (max-width: 900px) {
@@ -26,6 +33,7 @@
   }
 
   .page__promo {
+    max-width: 100%;
     margin: 0 auto 90px;
   }
 
@@ -48,7 +56,7 @@
   }
 
   .promo__title {
-    max-width: calc(100% - 20px);
+    max-width: 100%;
     margin: 0 auto 212px;
     font-size: 29px;
     line-height: 128%;

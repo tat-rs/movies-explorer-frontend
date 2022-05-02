@@ -5,6 +5,7 @@ function Input({
   name,
   type,
   labelText,
+  placeholder,
   value,
   onChange,
   className,
@@ -20,6 +21,7 @@ function Input({
         id={id}
         type={type}
         name={name}
+        placeholder={placeholder}
         value={value}
         onChange={onChange}
         required={required} />
