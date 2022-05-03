@@ -7,10 +7,10 @@ function MoviesCardList({ data }) {
   return (
     <ul className="movies-list">
       {
-        data.map((item) => (
+        data && data.map((item) => (
           <MoviesCard
             key={item.id}
-            image={item.image}
+            image={item.image.url}
             nameRU={item.nameRU}
             duration={item.duration} />
         ))

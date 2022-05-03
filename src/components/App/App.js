@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
 
 import Login from "../Login/Login";
@@ -12,11 +12,24 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import {useScrollLock} from "../../hooks/useScroll";
 
 import "./App.css";
+import moviesApi from "../../utils/MoviesApi";
 
 function App() {
 
   const [isMenuOpen, setMenuOpen] = useState(false);
   const {lockScroll, unlockScroll} = useScrollLock();
+  const [isLoading, setIsLoading] = useState(true);
+  const [moviesList, setMoviesList] = useState(null);
+
+  useEffect(() => {
+    moviesApi.getAllMovies()
+      .then((res) => {
+        setMoviesList(res)
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false))
+  }, [])
+
 
   function openNavMenu() {
     lockScroll()
@@ -41,7 +54,9 @@ function App() {
             <Movies
               openNavMenu={openNavMenu}
               closeNavMenu={closeNavMenu}
-              isMenuOpen={isMenuOpen}/>
+              isMenuOpen={isMenuOpen}
+              isLoading={isLoading}
+              moviesList={moviesList} />
           </Route>
 
           <Route path="/saved-movies">
