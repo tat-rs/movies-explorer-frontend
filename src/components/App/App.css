@@ -1,0 +1,41 @@
+.page__content {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
+.link {
+  text-decoration: none;
+  transition: opacity .3s;
+  cursor: pointer;
+}
+
+.link:hover {
+  opacity: 0.7;
+}
+
+.button {
+  border: none;
+  transition: opacity .3s
+}
+
+.button:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .page__content {
+    max-width: calc(100% - 40px);
+  }
+}
+
+@media (max-width: 590px) {
+  .page__content {
+    max-width: 100%;
+  }
+}

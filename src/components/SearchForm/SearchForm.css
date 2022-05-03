@@ -1,0 +1,118 @@
+.search {
+  display: flex;
+  position: relative;
+}
+
+.page__search {
+  margin: 0 0 80px;
+}
+
+.movies__search {
+  margin: 0 0 41px;
+}
+
+.search__label {
+  width: 100%;
+}
+
+.search__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 84px 14px 22px;
+  background-color: #F4F4F4;
+  border: none;
+  border-radius: 40px;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 131%;
+}
+
+.search__input:focus {
+  outline: 1px solid #3456F3;
+}
+
+.search__input::placeholder {
+  color: #A0A0A0;
+  opacity: 1;
+}
+
+.search__input::-webkit-placeholder {
+  color: #A0A0A0;
+  opacity: 1;
+}
+
+.search__input::-ms-input-placeholder {
+  color: #A0A0A0;
+  opacity: 1;
+}
+
+.search__input::-moz-placeholder {
+  color: #A0A0A0;
+  opacity: 1;
+}
+
+.search__btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background-color: #3456F3;
+  border: none;
+  border-radius: 48px;
+  box-sizing: border-box;
+  padding: 8px 10.35px;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 164%;
+  color: #fff;
+  min-width: 58.65px;
+}
+
+.search__checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 0 69px;
+  gap: 12px;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.search__checkbox-text {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 129%;
+}
+
+@media (max-width: 900px) {
+  .movies-list {
+    gap: 30px;
+  }
+
+  .search__checkbox {
+    padding: 0 0 50px;
+  }
+}
+
+@media (max-width: 590px) {
+
+  .page__search {
+    margin: 0 0 50px;
+  }
+
+  .search__input {
+    padding: 14px 80px 14px 19px;
+    font-size: 11px;
+    line-height: 155%;
+  }
+
+  .search__checkbox-text {
+    font-size: 11px;
+    line-height: 164%;
+  }
+
+  .card__title {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

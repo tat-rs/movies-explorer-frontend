@@ -1,0 +1,41 @@
+.movies {
+  box-sizing: border-box;
+  padding: 40px 30px 80px;
+  flex-grow: 1;
+}
+
+.page__movies {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.movies__button {
+  display: block;
+  width: 320px;
+  padding: 11px 0 9px;
+  margin: 0 auto;
+  border: none;
+  background-color: #F4F4F4;
+  border-radius: 6px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+@media (max-width: 900px) {
+  .movies {
+    padding: 57px 10px 80px;
+  }
+}
+
+@media (max-width: 590px) {
+  .movies {
+    padding: 66px 10px 80px;
+  }
+
+  .movies__button {
+    width: 240px;
+  }
+}
