@@ -1,0 +1,28 @@
+.checkbox {
+  display: block;
+  width: 36px;
+  height: 20px;
+  box-sizing: border-box;
+  padding: 2px;
+  background-color: #fff;
+  box-shadow: 0px 4px 4px rgba(50, 50, 71, 0.08), 0px 4px 8px rgba(50, 50, 71, 0.06);
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.checkbox__input {
+  display: none;
+}
+
+.checkbox__input:checked + .checkbox__circle {
+  background-color: #2BE080;
+  transform: translateX(16px);
+}
+
+.checkbox__circle {
+  width: 16px;
+  height: 16px;
+  background-color: #F5F5F5;
+  border-radius: 50%;
+  transition: all .3s ease-in-out;
+}
