@@ -1,22 +1,20 @@
-import { useState } from "react";
+import { useForm } from "../../hooks/useForm";
 import AuthForm from "../AuthForm/AuthForm";
 import Input from "../Input/Input";
 
 function Login({
   nameForm,
   title,
-  textOfButton
+  textOfButton,
+  onLogin
 }) {
-  const [values, setValues] = useState({});
+  const {values, errors, isValid, handleChange} = useForm();
 
-  function handleChangeInput(evt) {
-    let name = evt.target.name
-    let value = evt.target.value
+  console.log(isValid)
 
-    setValues({
-      ...values,
-      [name] : value,
-    })
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onLogin(values.email, values.password);
   }
 
   return (
@@ -26,7 +24,9 @@ function Login({
       nameForm={nameForm}
       text="Ещё не зарегистрированы?"
       textOfLink="Регистрация"
-      link="/signup">
+      link="/signup"
+      isValid={isValid}
+      onSubmit={handleSubmit}>
       <Input 
         className="auth-form"
         id="user-email"
@@ -34,7 +34,9 @@ function Login({
         type="email"
         name="email"
         value={values.email || ""} 
-        onChange={handleChangeInput}
+        onChange={handleChange}
+        isValid={isValid}
+        error={errors.email}
         required
       />
       <Input
@@ -44,7 +46,9 @@ function Login({
         type="password"
         name="password"
         value={values.password || ""} 
-        onChange={handleChangeInput}
+        onChange={handleChange}
+        isValid={isValid}
+        error={errors.password}
         required
       />
     </AuthForm>

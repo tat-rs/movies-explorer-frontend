@@ -6,7 +6,8 @@ import "./Profile.css";
 function Profile({
   openNavMenu,
   closeNavMenu,
-  isMenuOpen
+  isMenuOpen,
+  logout
 }) {
 
   return (
@@ -39,8 +40,8 @@ function Profile({
           onChange={() => { } }
           required />
         <div className="buttons__container">
-          <button className="profile__button link">Редактировать</button>
-          <button className="profile__button profile__button_type_signout link">Выйти из аккаунта</button>
+          <button className="profile__button link" type="button">Редактировать</button>
+          <button className="profile__button profile__button_type_signout link" type="button" onClick={logout}>Выйти из аккаунта</button>
         </div>
       </form>
     </section>

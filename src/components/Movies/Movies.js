@@ -5,14 +5,22 @@ import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
 
 import "./Movies.css";
+import { useEffect } from "react";
 
 function Movies({
   openNavMenu,
   closeNavMenu,
   isMenuOpen,
   isLoading,
-  moviesList
+  resultMovies,
+  moviesList,
+  searchMovies
 }) {
+
+  useEffect(() => {
+    localStorage.setItem('resutlt', JSON.stringify(resultMovies))
+  }, [resultMovies]);
+
   return (
     <>
     <Header
@@ -21,13 +29,13 @@ function Movies({
       isMenuOpen={isMenuOpen} />
 
       <section className="movies page__movies">
-        <SearchForm />
+        <SearchForm searchMovies={searchMovies} />
         {
           isLoading ? (
             <Preloader />
           ) : (
             <>
-              <MoviesCardList data={moviesList}/>
+              <MoviesCardList data={resultMovies.length > 0 ? resultMovies : moviesList}/>
               <button className="movies__button button">Ещё</button>
             </>
           )

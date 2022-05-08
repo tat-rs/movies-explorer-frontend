@@ -10,7 +10,9 @@ function AuthForm({
   children,
   text,
   link,
-  textOfLink
+  textOfLink,
+  onSubmit,
+  isValid
 }) {
 
   return (
@@ -19,7 +21,7 @@ function AuthForm({
       <form
         className="form"
         name={nameForm}
-        onSubmit={() => {}}
+        onSubmit={onSubmit}
         noValidate >
         <div className="form__container">
           <h2 className="form__title">{title}</h2>
@@ -27,7 +29,7 @@ function AuthForm({
             {children}
           </div>
         </div>
-        <button className="form__button button" type="submit">{textOfButton}</button>
+        <button className={`form__button button ${!isValid ? 'form__button_disabled' : ''}`} type="submit" disabled={!isValid}>{textOfButton}</button>
       </form>
       <div className="auth-form__information">
         <p className="auth-form__text">{text}</p>

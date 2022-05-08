@@ -1,24 +1,25 @@
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 
-import Pic1 from "../../images/pic-1.png";
-import Pic2 from "../../images/pic-2.png";
-
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 
 const data = [
   {
     id: 1,
-    image: Pic1,
+    image: {
+      url: '/uploads/all_tommoros_parties_33a125248d.jpeg'
+    },
     nameRU: "33 слова о дизайне",
-    duration: "1ч 42м",
+    duration: "129",
   },
   {
     id: 2,
-    image: Pic2,
+    image: {
+      url: '/uploads/all_tommoros_parties_33a125248d.jpeg'
+    },
     nameRU: "Киноальманах «100 лет дизайна»",
-    duration: "1ч 42м",
+    duration: "99",
   },
 ]
 

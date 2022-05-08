@@ -3,7 +3,9 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
 import "./SearchForm.css";
 
-function SearchForm() {
+function SearchForm({
+  searchMovies
+}) {
 
   const [values, setValues] = useState({});
 
@@ -17,9 +19,14 @@ function SearchForm() {
     })
   }
 
+  function onSubmit(evt) {
+    evt.preventDefault()
+    searchMovies(values.searchMovie)
+  }
+
   return (
     <div className="page__search">
-      <form className="search movies__search" name="search-movie">
+      <form className="search movies__search" name="search-movie" onSubmit={onSubmit}>
         <label className="search__label" htmlFor="search-movie">
           <input
             className="search__input"

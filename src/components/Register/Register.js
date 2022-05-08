@@ -1,23 +1,27 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "../../hooks/useForm";
 import AuthForm from "../AuthForm/AuthForm";
 import Input from "../Input/Input";
 
 function Register({
   nameForm,
   title,
-  textOfButton
+  textOfButton,
+  onRegister
 }) {
-  const [values, setValues] = useState({});
 
-  function handleChangeInput(evt) {
-    let name = evt.target.name
-    let value = evt.target.value
+  const {values, setValues, errors, isValid, handleChange} = useForm();
 
-    setValues({
-      ...values,
-      [name] : value,
-    })
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onRegister(values.email, values.name, values.password);
   }
+
+  console.log(isValid)
+
+  useEffect(() => {
+    setValues({})
+  }, [])
 
   return (
     <AuthForm 
@@ -26,15 +30,19 @@ function Register({
       nameForm={nameForm}
       text="Уже зарегистрированы?"
       textOfLink="Войти"
-      link="/signin">
+      link="/signin"
+      isValid={isValid}
+      onSubmit={handleSubmit} >
       <Input 
         className="auth-form"
         id="user-name"
         labelText="Имя"
         type="text"
         name="name"
-        value={values.name || ""} 
-        onChange={handleChangeInput}
+        value={values.name || ""}
+        error={errors.name}
+        isValid={isValid}
+        onChange={handleChange}
         required
       />
       <Input 
@@ -44,7 +52,9 @@ function Register({
         type="email"
         name="email"
         value={values.email || ""} 
-        onChange={handleChangeInput}
+        error={errors.email}
+        isValid={isValid}
+        onChange={handleChange}
         required
       />
       <Input 
@@ -54,8 +64,9 @@ function Register({
         type="password"
         name="password"
         value={values.password || ""} 
-        onChange={handleChangeInput}
-        error="Что-то пошло не так"
+        onChange={handleChange}
+        error={errors.password}
+        isValid={isValid}
         required
       />
     </AuthForm>

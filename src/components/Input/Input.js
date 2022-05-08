@@ -8,6 +8,7 @@ function Input({
   placeholder,
   value,
   onChange,
+  isValid,
   className,
   required,
   error,
@@ -26,7 +27,7 @@ function Input({
         onChange={onChange}
         required={required} />
       </label>
-      <span className={`error ${className ? `error_type_${className}` : ''}`}>{error || ''}</span>
+      <span className={`error ${className ? `error_type_${className}` : ''}`}>{!isValid && error}</span>
     </div>
   )
 }

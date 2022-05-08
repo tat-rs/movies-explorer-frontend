@@ -16,6 +16,7 @@ class MainApi {
   getAllMovies() {
     return fetch(`${this._url}/movies`, {
       method: "GET",
+      credentials: "include",
       headers: this.headers,
     })
     .then(this._checkResponse)
@@ -24,6 +25,7 @@ class MainApi {
   addNewMovie(Movie) {
     return fetch(`${this._url}/movies`, {
       method: "POST",
+      credentials: "include",
       headers: this.headers,
       body: JSON.stringify({
         country: Movie.country,
@@ -45,6 +47,38 @@ class MainApi {
   deleteMovieById(movieId) {
     return fetch(`${this._url}/movies/${movieId}`, {
       method: "DELETE",
+      credentials: "include",
+      headers: this.headers,
+    })
+    .then(this._checkResponse)
+  }
+
+  register(email, name, password) {
+    return fetch(`${this._url}/signup`, {
+      method: "POST",
+      credentials: "include",
+      headers: this._headers,
+      body: JSON.stringify({email, name, password})
+    })
+    .then(this._checkResponse)
+  };
+
+  //аутентификация
+  authorize(email, password) {
+    return fetch(`${this._url}/signin`, {
+      method: "POST",
+      credentials: "include",
+      headers: this._headers,
+      body: JSON.stringify({email, password})
+    })
+    .then(this._checkResponse)
+  };
+
+  //выход из системы
+  logout() {
+    return fetch(`${this._url}/signout`, {
+      method: "POST",
+      credentials: "include",
       headers: this.headers,
     })
     .then(this._checkResponse)
