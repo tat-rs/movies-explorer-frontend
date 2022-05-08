@@ -6,11 +6,11 @@ function Login({
   nameForm,
   title,
   textOfButton,
-  onLogin
+  onLogin,
+  errorMessage,
+  setErrorMessage
 }) {
   const {values, errors, isValid, handleChange} = useForm();
-
-  console.log(isValid)
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -26,7 +26,10 @@ function Login({
       textOfLink="Регистрация"
       link="/signup"
       isValid={isValid}
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+      errorMessage={errorMessage}
+      setErrorMessage={setErrorMessage} >
+
       <Input 
         className="auth-form"
         id="user-email"
@@ -37,8 +40,8 @@ function Login({
         onChange={handleChange}
         isValid={isValid}
         error={errors.email}
-        required
-      />
+        required />
+
       <Input
         className="auth-form input_not-underline"
         id="user-password"
@@ -49,8 +52,8 @@ function Login({
         onChange={handleChange}
         isValid={isValid}
         error={errors.password}
-        required
-      />
+        required />
+
     </AuthForm>
   )
 }

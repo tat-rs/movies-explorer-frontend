@@ -14,6 +14,8 @@ import {useScrollLock} from "../../hooks/useScroll";
 import "./App.css";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import { CurrentUserContext } from "../../context/CurrentUserContext";
 
 function App() {
 
@@ -27,18 +29,45 @@ function App() {
 
   const userEmail = localStorage.getItem('email');
 
-  console.log(userEmail)
+  const [isLoggedIn, setIsLoggedIn] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [currentUser, setCurrentUser] = useState({
+    name: "",
+    email: "",
+}); //стейт текущих данных пользователя
 
   const history = useHistory();
 
+  //проверка токена пользователя
+  function tokenCheck() {
+    if(userEmail){
+      mainApi.getContent()
+        .then((data) => data)
+        .then((res) => {
+          if(res?.email)
+          localStorage.setItem('email', res.email); //обновили стейт эл. почты пользователя
+          setIsLoggedIn(true); //обновлен статус пользователя - зарегистрирован
+          history.push('/movies'); //переадресация на страницу пользователя
+        })
+        .catch(err => console.log(err))
+    }
+  }
+
   useEffect(() => {
-    moviesApi.getAllMovies()
-      .then((res) => {
-        setMoviesList(res)
+
+    if(isLoggedIn && userEmail) {
+      Promise.all([moviesApi.getAllMovies(), mainApi.getUserInfo()])
+      .then(([movies, userData]) => {
+        setMoviesList(movies)
+        setCurrentUser(userData)
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false))
-  }, [])
+    }
+
+    tokenCheck();
+    
+  }, [isLoggedIn])
 
 
   function openNavMenu() {
@@ -55,7 +84,6 @@ function App() {
     let arr = []
     moviesList.forEach(item => {
       if(item.nameRU.toLowerCase().includes(data.toLowerCase())) {
-        console.log(item)
         return arr = [...arr, item]
       }
       return arr
@@ -68,13 +96,15 @@ function App() {
     
     mainApi.register(userEmail, userName, userPassword)
       .then((res) => {
-        console.log(res)
         if(res) {
-          alert("Success")
+          setCurrentUser({
+            name: userName,
+            email: userEmail
+          })
           onLogin(userEmail, userPassword)
         }
         else {
-          alert("УПС")
+          setErrorMessage(" При регистрации пользователя произошла ошибка.")
         }
       })
       .catch((err) => console.log(err))
@@ -86,10 +116,11 @@ function App() {
     mainApi.authorize(userEmail, userPassword)
       .then((data) => {
         if(data?.token) {
-          localStorage.setItem('email', userEmail);//сохранили эл. почту пользователя
-          history.push('/movies'); //переадресация на основную страницу
+          localStorage.setItem('email', userEmail);
+          setIsLoggedIn(true);
+          history.push('/movies');
         } else {
-          return
+          setErrorMessage("Вы ввели неправильный логин или пароль.")
         }
       })
       .catch((err) => {
@@ -104,51 +135,58 @@ function App() {
       .catch(err => console.log(err));
 
     localStorage.removeItem('email'); //удалили токен
+    setIsLoggedIn(false);
     history.push('/signin');//переадресация на странцицу входа
   }
 
   return (
     <div className="page__content">
-
+      <CurrentUserContext.Provider value={currentUser}>
         <Switch>
 
           <Route exact path="/">
             <Main />
           </Route>
 
-          <Route path="/movies">
-            <Movies
-              openNavMenu={openNavMenu}
-              closeNavMenu={closeNavMenu}
-              isMenuOpen={isMenuOpen}
-              isLoading={isLoading}
-              moviesList={moviesList}
-              resultMovies={resultMovies}
-              searchMovies={searchMovies} />
-          </Route>
+          <ProtectedRoute
+            component={Movies}
+            path="/movies"
+            openNavMenu={openNavMenu}
+            closeNavMenu={closeNavMenu}
+            isMenuOpen={isMenuOpen}
+            isLoading={isLoading}
+            moviesList={moviesList}
+            resultMovies={resultMovies}
+            searchMovies={searchMovies}
+            isLoggedIn={isLoggedIn} />
 
-          <Route path="/saved-movies">
-            <SavedMovies
-              openNavMenu={openNavMenu}
-              closeNavMenu={closeNavMenu}
-              isMenuOpen={isMenuOpen}
-              searchMovies={searchMovies} />
-          </Route>
+          <ProtectedRoute
+            component={SavedMovies}
+            path="/saved-movies"
+            openNavMenu={openNavMenu}
+            closeNavMenu={closeNavMenu}
+            isMenuOpen={isMenuOpen}
+            searchMovies={searchMovies}
+            isLoggedIn={isLoggedIn} />
 
-          <Route path="/profile">
-            <Profile
-              openNavMenu={openNavMenu}
-              closeNavMenu={closeNavMenu}
-              isMenuOpen={isMenuOpen}
-              logout={signOutClick} />
-          </Route>
+          <ProtectedRoute
+            component={Profile}
+            path="/profile"
+            openNavMenu={openNavMenu}
+            closeNavMenu={closeNavMenu}
+            isMenuOpen={isMenuOpen}
+            logout={signOutClick}
+            isLoggedIn={isLoggedIn}
+            errorMessage={errorMessage} />
 
           <Route path="/signin">
             <Login
               title="Рады видеть!"
               textOfButton="Войти"
               nameForm="sign-in" 
-              onLogin={onLogin} />
+              onLogin={onLogin}
+              errorMessage={errorMessage}
+              setErrorMessage={setErrorMessage} />
           </Route>
 
           <Route path="/signup">
@@ -156,7 +194,9 @@ function App() {
             title="Добро пожаловать!"
             textOfButton="Зарегистрироваться"
             nameForm="sign-up"
-            onRegister={onRegister} />
+            onRegister={onRegister}
+            errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage} />
           </Route>
 
           <Route path="*">
@@ -164,6 +204,8 @@ function App() {
           </Route>
 
         </Switch>
+      </CurrentUserContext.Provider>
+
       
     </div>
   );

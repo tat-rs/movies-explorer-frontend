@@ -12,6 +12,9 @@ function Input({
   className,
   required,
   error,
+  minLength,
+  maxLength,
+  pattern
 }) {
   return (
     <div className={`input__container ${className ? `input__container_type_${className}` : ''}`}>

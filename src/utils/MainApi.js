@@ -7,10 +7,17 @@ class MainApi {
   }
 
   _checkResponse(res) {
-    if(res.ok) {
+    /* if(res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка: ${res.status}`)
+    return Promise.reject(`Ошибка: ${res.status}`) */
+    try {
+      if (res.status === 200 || res.status === 201){
+        return res.json();
+      }
+    } catch(error){
+      return (error.json())
+    }
   }
 
   getAllMovies() {
@@ -73,6 +80,26 @@ class MainApi {
     })
     .then(this._checkResponse)
   };
+
+  //получаем данные пользователя
+  getUserInfo() {
+    return fetch(`${this._url}/users/me`, {
+      method: "GET",
+      credentials: "include",
+      headers: this._headers,
+    })
+    .then(this._checkResponse)
+  }
+
+  //проверка токена
+  getContent() {
+    return fetch(`${this._url}/users/me`, {
+      method: "GET",
+      credentials: "include",
+      headers: this.headers,
+    })
+    .then(this._checkResponse)
+  }
 
   //выход из системы
   logout() {

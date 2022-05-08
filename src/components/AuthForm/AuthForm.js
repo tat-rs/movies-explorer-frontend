@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../Logo/Logo";
 
@@ -12,8 +13,14 @@ function AuthForm({
   link,
   textOfLink,
   onSubmit,
-  isValid
+  isValid,
+  errorMessage,
+  setErrorMessage
 }) {
+
+  useEffect(() => {
+    setErrorMessage("")
+  }, [])
 
   return (
     <section className="auth-form">
@@ -29,7 +36,15 @@ function AuthForm({
             {children}
           </div>
         </div>
-        <button className={`form__button button ${!isValid ? 'form__button_disabled' : ''}`} type="submit" disabled={!isValid}>{textOfButton}</button>
+        <div className="form__btn-container">
+          <span className="form__error">{errorMessage}</span>
+          <button
+            className={`form__button button ${!isValid ? 'form__button_disabled' : ''}`}
+            type="submit"
+            disabled={!isValid}>
+              {textOfButton}
+          </button>
+        </div>
       </form>
       <div className="auth-form__information">
         <p className="auth-form__text">{text}</p>

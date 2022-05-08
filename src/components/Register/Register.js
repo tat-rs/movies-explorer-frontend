@@ -7,7 +7,10 @@ function Register({
   nameForm,
   title,
   textOfButton,
-  onRegister
+  onRegister,
+  errorMessage,
+  setErrorMessage,
+  pattern
 }) {
 
   const {values, setValues, errors, isValid, handleChange} = useForm();
@@ -16,8 +19,6 @@ function Register({
     evt.preventDefault();
     onRegister(values.email, values.name, values.password);
   }
-
-  console.log(isValid)
 
   useEffect(() => {
     setValues({})
@@ -32,7 +33,10 @@ function Register({
       textOfLink="Войти"
       link="/signin"
       isValid={isValid}
-      onSubmit={handleSubmit} >
+      onSubmit={handleSubmit}
+      errorMessage={errorMessage}
+      setErrorMessage={setErrorMessage} >
+
       <Input 
         className="auth-form"
         id="user-name"
