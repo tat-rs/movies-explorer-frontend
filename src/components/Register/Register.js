@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useForm } from "../../hooks/useForm";
 import AuthForm from "../AuthForm/AuthForm";
 import Input from "../Input/Input";
@@ -9,20 +8,16 @@ function Register({
   textOfButton,
   onRegister,
   errorMessage,
-  setErrorMessage,
-  pattern
+  setErrorMessage
 }) {
 
-  const {values, setValues, errors, isValid, handleChange} = useForm();
+  const {values, errors, isValid, handleChange, resetForm} = useForm();
 
   function handleSubmit(evt) {
     evt.preventDefault();
     onRegister(values.email, values.name, values.password);
+    resetForm();
   }
-
-  useEffect(() => {
-    setValues({})
-  }, [])
 
   return (
     <AuthForm 

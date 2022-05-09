@@ -16,6 +16,7 @@ import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { ERROR_AUTH, ERROR_REGISTER } from "../../utils/constants";
 
 function App() {
 
@@ -104,7 +105,7 @@ function App() {
           onLogin(userEmail, userPassword)
         }
         else {
-          setErrorMessage(" При регистрации пользователя произошла ошибка.")
+          setErrorMessage(ERROR_REGISTER)
         }
       })
       .catch((err) => console.log(err))
@@ -120,7 +121,7 @@ function App() {
           setIsLoggedIn(true);
           history.push('/movies');
         } else {
-          setErrorMessage("Вы ввели неправильный логин или пароль.")
+          setErrorMessage(ERROR_AUTH)
         }
       })
       .catch((err) => {

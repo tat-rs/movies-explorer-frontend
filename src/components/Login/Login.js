@@ -10,11 +10,12 @@ function Login({
   errorMessage,
   setErrorMessage
 }) {
-  const {values, errors, isValid, handleChange} = useForm();
+  const {values, errors, isValid, handleChange, resetForm} = useForm();
 
   function handleSubmit(evt) {
     evt.preventDefault();
     onLogin(values.email, values.password);
+    resetForm();
   }
 
   return (

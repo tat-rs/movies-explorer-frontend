@@ -13,8 +13,8 @@ function Profile({
   errorMessage
 }) {
 
-  const currentUserData = useContext(CurrentUserContext); //подписываемся на контекст
-
+  const currentUserData = useContext(CurrentUserContext);
+  
   return (
     <>
     <Header

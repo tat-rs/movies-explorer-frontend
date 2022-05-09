@@ -39,7 +39,7 @@ function AuthForm({
         <div className="form__btn-container">
           <span className="form__error">{errorMessage}</span>
           <button
-            className={`form__button button ${!isValid ? 'form__button_disabled' : ''}`}
+            className={`form__button ${!isValid ? 'form__button_disabled' : 'button'}`}
             type="submit"
             disabled={!isValid}>
               {textOfButton}
