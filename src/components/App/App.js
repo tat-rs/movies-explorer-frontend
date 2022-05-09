@@ -16,7 +16,7 @@ import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
-import { ERROR_AUTH, ERROR_REGISTER } from "../../utils/constants";
+import { ERROR_AUTH, ERROR_REGISTER, ERROR_UPTADE_PROFILE } from "../../utils/constants";
 
 function App() {
 
@@ -33,8 +33,10 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState();
   const [errorMessage, setErrorMessage] = useState("");
   const [currentUser, setCurrentUser] = useState({
-    name: "",
-    email: "",
+    user: {
+      name: "",
+      email: "",
+    }
 }); //стейт текущих данных пользователя
 
   const history = useHistory();
@@ -129,6 +131,26 @@ function App() {
       })
   }
 
+  function updateUserInfo(userName, userEmail) {
+    
+    mainApi.uptadeUserInfo(userName, userEmail)
+      .then((userData) => {
+        console.log(userData)
+        if(userData) {
+          setCurrentUser({
+            user: {
+              name: userName,
+              email: userEmail
+            }
+          })
+        }
+        else {
+          setErrorMessage(ERROR_UPTADE_PROFILE)
+        }
+      })
+      .catch((err) => console.log(err))
+  }
+
   //функция выхода из системы
   function signOutClick(){
     mainApi.logout()
@@ -178,7 +200,9 @@ function App() {
             isMenuOpen={isMenuOpen}
             logout={signOutClick}
             isLoggedIn={isLoggedIn}
-            errorMessage={errorMessage} />
+            errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage}
+            updateUserInfo={updateUserInfo} />
 
           <Route path="/signin">
             <Login

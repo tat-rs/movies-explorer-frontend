@@ -11,11 +11,9 @@ function Input({
   isValid,
   className,
   required,
-  error,
-  minLength,
-  maxLength,
-  pattern
+  error
 }) {
+
   return (
     <div className={`input__container ${className ? `input__container_type_${className}` : ''}`}>
       <label className={`label ${className ? `label_type_${className}` : ''}`} htmlFor={id}>
@@ -30,7 +28,7 @@ function Input({
         onChange={onChange}
         required={required} />
       </label>
-      <span className={`error ${className ? `error_type_${className}` : ''}`}>{!isValid && error}</span>
+      <span className={`error ${className ? `error_type_${className}` : ''}`}>{error || ''}</span>
     </div>
   )
 }

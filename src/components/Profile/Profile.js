@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { useForm } from "../../hooks/useForm";
 import Header from "../Header/Header";
 import Input from "../Input/Input";
 
@@ -10,11 +11,29 @@ function Profile({
   closeNavMenu,
   isMenuOpen,
   logout,
-  errorMessage
+  errorMessage,
+  setErrorMessage,
+  updateUserInfo
 }) {
 
   const currentUserData = useContext(CurrentUserContext);
-  
+
+  const {values, setValues, errors, setErrors, isValid, setIsValid, handleChange} = useForm();
+
+  useEffect(() => {
+    setIsValid(false)
+    setErrors({})
+    setErrorMessage('')
+    setValues({
+      ...values, name: currentUserData.user.name, email: currentUserData.user.email
+    })
+  }, []);
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    updateUserInfo(values.name, values.email);
+  }
+
   return (
     <>
     <Header
@@ -24,15 +43,18 @@ function Profile({
       
     <section className="profile">
       <h2 className="profile__title">{`Привет, ${currentUserData.user.name}!`}</h2>
-      <form className="profile__form" name="editor-profile">
+      <form className="form profile__form" name="editor-profile" onSubmit={handleSubmit}>
+        <div>
         <Input
           className="profile"
           id="user-name"
           labelText="Имя"
           type="text"
           name="name"
-          value={currentUserData.user.name}
-          onChange={() => { } }
+          value={values.name || ''}
+          error={errors.name}
+          isValid={isValid}
+          onChange={handleChange}
           required />
         <span className="profile__line"></span>
         <Input
@@ -41,12 +63,15 @@ function Profile({
           labelText="E-mail"
           type="email"
           name="email"
-          value={currentUserData.user.email}
-          onChange={() => { } }
+          value={values.email || ''}
+          error={errors.email}
+          isValid={isValid}
+          onChange={handleChange}
           required />
+        </div>
         <span>{errorMessage}</span>
         <div className="buttons__container">
-          <button className="profile__button link" type="button">Редактировать</button>
+          <button className={`profile__button 'link'}`} type='submit' disabled={!isValid}>Редактировать</button>
           <button className="profile__button profile__button_type_signout link" type="button" onClick={logout}>Выйти из аккаунта</button>
         </div>
       </form>

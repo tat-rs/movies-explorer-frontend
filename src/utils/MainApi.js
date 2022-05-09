@@ -90,6 +90,17 @@ class MainApi {
     })
     .then(this._checkResponse)
   }
+  
+  //получаем данные пользователя
+ uptadeUserInfo(name, email) {
+    return fetch(`${this._url}/users/me`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: this._headers,
+      body: JSON.stringify({name, email})
+    })
+    .then(this._checkResponse)
+  }
 
   //проверка токена
   getContent() {

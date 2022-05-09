@@ -77,7 +77,12 @@ export function useForm() {
 
     handleError(name, value, evt)
 
-    setIsValid(evt.target.closest(".form").checkValidity()); //состояние валидности формы
+    //состояние валидности формы
+    if(errors.name || errors.email || errors.password) {
+      setIsValid(false)
+    } else {
+      setIsValid(true)
+    }
   }
 
   //очистка формы
