@@ -2,17 +2,13 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 
 import "./MoviesCardList.css";
 
-function MoviesCardList({ data }) {
+function MoviesCardList({ resultMovies }) {
   
   return (
     <ul className="movies-list">
       {
-        data && data.map((item) => (
-          <MoviesCard
-            key={item.id}
-            image={item.image.url}
-            nameRU={item.nameRU}
-            duration={item.duration} />
+        resultMovies.length > 0 && resultMovies.map((movie) => (
+          <MoviesCard key={movie.id} movie={movie} />
         ))
       }
     </ul>

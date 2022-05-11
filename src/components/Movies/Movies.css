@@ -24,6 +24,16 @@
   line-height: 15px;
 }
 
+.movies__result {
+  width: fit-content;
+  max-width: calc(100% - 40px);
+  margin: 0 auto;
+  text-align: center;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 19px;
+}
+
 @media (max-width: 900px) {
   .movies {
     padding: 57px 10px 80px;

@@ -13,8 +13,6 @@ function Register({
 
   const {values, errors, isValid, handleChange, resetForm} = useForm();
 
-  console.log(errors)
-
   function handleSubmit(evt) {
     evt.preventDefault();
     onRegister(values.email, values.name, values.password);

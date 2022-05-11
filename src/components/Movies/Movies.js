@@ -5,7 +5,6 @@ import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
 
 import "./Movies.css";
-import { useEffect } from "react";
 
 function Movies({
   openNavMenu,
@@ -13,13 +12,8 @@ function Movies({
   isMenuOpen,
   isLoading,
   resultMovies,
-  moviesList,
-  searchMovies
+  searchMovies,
 }) {
-
-  useEffect(() => {
-    localStorage.setItem('resutlt', JSON.stringify(resultMovies))
-  }, [resultMovies]);
 
   return (
     <>
@@ -31,13 +25,13 @@ function Movies({
       <section className="movies page__movies">
         <SearchForm searchMovies={searchMovies} />
         {
-          isLoading ? (
-            <Preloader />
-          ) : (
+          resultMovies.length > 0 ? (
             <>
-              <MoviesCardList data={resultMovies.length > 0 ? resultMovies : moviesList}/>
+              <MoviesCardList resultMovies={resultMovies}/>
               <button className="movies__button button">Ещё</button>
             </>
+          ) : (
+            <p className="movies__result">Ничего не найдено</p>
           )
         }
       </section>

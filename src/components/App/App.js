@@ -24,10 +24,8 @@ function App() {
   const {lockScroll, unlockScroll} = useScrollLock();
   const [isLoading, setIsLoading] = useState(true);
   const [moviesList, setMoviesList] = useState(null);
-  const [resultMovies, setResultMovies ] = useState(
-    JSON.parse(localStorage.getItem('resutlt')) || []
-  );
-
+  const [resultMovies, setResultMovies] = useState(JSON.parse(localStorage.getItem('result')) || []);
+  
   const userEmail = localStorage.getItem('email');
 
   const [isLoggedIn, setIsLoggedIn] = useState();
@@ -67,11 +65,12 @@ function App() {
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false))
     }
-
     tokenCheck();
-    
   }, [isLoggedIn])
 
+  useEffect(() => {
+    localStorage.setItem('result', JSON.stringify(resultMovies));
+  }, [resultMovies])
 
   function openNavMenu() {
     lockScroll()
@@ -84,15 +83,14 @@ function App() {
   }
 
   function searchMovies(data) {
-    let arr = []
+    let list = []
     moviesList.forEach(item => {
       if(item.nameRU.toLowerCase().includes(data.toLowerCase())) {
-        return arr = [...arr, item]
+        return list = [...list, item]
       }
-      return arr
+      return list
     });
-    
-    setResultMovies(arr)
+    setResultMovies(list);
   }
 
   function onRegister(userEmail, userName, userPassword) {
@@ -157,7 +155,8 @@ function App() {
       .then(res => res)
       .catch(err => console.log(err));
 
-    localStorage.removeItem('email'); //удалили токен
+    localStorage.removeItem('email');
+    localStorage.removeItem('resutltOfSearch');
     setIsLoggedIn(false);
     history.push('/signin');//переадресация на странцицу входа
   }
@@ -181,7 +180,7 @@ function App() {
             moviesList={moviesList}
             resultMovies={resultMovies}
             searchMovies={searchMovies}
-            isLoggedIn={isLoggedIn} />
+            isLoggedIn={isLoggedIn}/>
 
           <ProtectedRoute
             component={SavedMovies}

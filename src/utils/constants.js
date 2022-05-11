@@ -1,10 +1,10 @@
 export const URL_MOVIE_API = 'https://api.nomoreparties.co/beatfilm-movies';
 
-/* export const URL_MAIN_API = 'https://api.nomoreparties.co/beatfilm-movies'; */
+/* export const URL_MAIN_API = 'https://api.movie-explorer22.nomoredomains.work'; */
 
 export const URL_MAIN_API = 'http://localhost:3000';
 
-export const RegExpEmail = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+export const RegExpEmail = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
 export const RegExpName = new RegExp(/^[а-яА-ЯёЁa-zA-Z\s/-]+$/);
 

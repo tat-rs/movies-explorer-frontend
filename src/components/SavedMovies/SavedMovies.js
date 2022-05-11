@@ -26,7 +26,9 @@ const data = [
 function SavedMovies({
   openNavMenu,
   closeNavMenu,
-  isMenuOpen
+  isMenuOpen,
+  deleteMovie,
+  savedMoviesList
 }) {
   return (
     <>
@@ -37,7 +39,9 @@ function SavedMovies({
 
         <section className="movies page__movies">
           <SearchForm />
-          <MoviesCardList data={data}/>
+          {/* <MoviesCardList
+            data={savedMoviesList}
+            deleteMovie={deleteMovie} /> */}
         </section>
         
       <Footer />

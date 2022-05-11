@@ -16,44 +16,13 @@ class MainApi {
         return res.json();
       }
     } catch(error){
-      return (error.json())
+      return (error)
     }
   }
 
   getAllMovies() {
     return fetch(`${this._url}/movies`, {
       method: "GET",
-      credentials: "include",
-      headers: this.headers,
-    })
-    .then(this._checkResponse)
-  }
-
-  addNewMovie(Movie) {
-    return fetch(`${this._url}/movies`, {
-      method: "POST",
-      credentials: "include",
-      headers: this.headers,
-      body: JSON.stringify({
-        country: Movie.country,
-        director: Movie.director,
-        duration: Movie.duration,
-        year: Movie.year,
-        description: Movie.description,
-        image: Movie.image,
-        trailerLink: Movie.trailerLink,
-        nameRU: Movie.nameRU,
-        nameEN: Movie.nameEN,
-        thumbnail: Movie.thumbnail,
-        movieId: Movie.movieId,
-      })
-    })
-    .then(this._checkResponse)
-  }
-
-  deleteMovieById(movieId) {
-    return fetch(`${this._url}/movies/${movieId}`, {
-      method: "DELETE",
       credentials: "include",
       headers: this.headers,
     })
@@ -91,7 +60,7 @@ class MainApi {
     .then(this._checkResponse)
   }
   
-  //получаем данные пользователя
+  //редактируем данные пользователя
  uptadeUserInfo(name, email) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",

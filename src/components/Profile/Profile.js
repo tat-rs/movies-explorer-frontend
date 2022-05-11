@@ -71,7 +71,7 @@ function Profile({
         </div>
         <span>{errorMessage}</span>
         <div className="buttons__container">
-          <button className={`profile__button 'link'}`} type='submit' disabled={!isValid}>Редактировать</button>
+          <button className="profile__button link" type='submit' disabled={!isValid}>Редактировать</button>
           <button className="profile__button profile__button_type_signout link" type="button" onClick={logout}>Выйти из аккаунта</button>
         </div>
       </form>

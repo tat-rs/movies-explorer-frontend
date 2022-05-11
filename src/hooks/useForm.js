@@ -21,17 +21,7 @@ export function useForm() {
     switch (name) {
       case 'name':
         //обязательное поле
-        if(value.length === 0 ) {
-          setErrors({
-            ...errors, [name]: ERROR_REQUIRED
-          })
-          //min и max длина
-        } else if(value.length < 2 || value.length > 30 ) {
-          setErrors({
-            ...errors, [name]: ERROR_NAME_LENGTH
-          })
-          //формат: только латиница, кириллица, пробел или дефис
-        } else if(!RegExpName.test(evt.target.value)) {
+        if(!RegExpName.test(evt.target.value)) {
           setErrors({
             ...errors, [name]: ERROR_NAME_FORMAT
           })
@@ -43,12 +33,7 @@ export function useForm() {
         break;
       case 'email':
         //обязательное поле
-        if(value.length === 0 ) {
-          setErrors({
-            ...errors, [name]: ERROR_REQUIRED
-          })
-          //формат: email
-        } else if(!RegExpEmail.test(value)) {
+        if(!RegExpEmail.test(value)) {
           setErrors({
             ...errors, [name]: ERROR_INCORRECT_EMAIL
           })
@@ -77,12 +62,7 @@ export function useForm() {
 
     handleError(name, value, evt)
 
-    //состояние валидности формы
-    if(errors.name || errors.email || errors.password) {
-      setIsValid(false)
-    } else {
-      setIsValid(true)
-    }
+    setIsValid(evt.target.closest(".form").checkValidity())
   }
 
   //очистка формы
