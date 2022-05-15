@@ -24,7 +24,7 @@ function App() {
   const {lockScroll, unlockScroll} = useScrollLock();
   const [isLoading, setIsLoading] = useState(true);
   const [moviesList, setMoviesList] = useState(null);
-  const [resultMovies, setResultMovies] = useState(JSON.parse(localStorage.getItem('result')) || []);
+  const [resultMovies, setResultMovies] = useState([]);
   
   const userEmail = localStorage.getItem('email');
 
@@ -35,7 +35,9 @@ function App() {
       name: "",
       email: "",
     }
-}); //стейт текущих данных пользователя
+});
+
+  const [savedUsersMovies, setSavedUsersMovies] = useState([]);
 
   const history = useHistory();
 
@@ -63,7 +65,6 @@ function App() {
         setCurrentUser(userData)
       })
       .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false))
     }
     tokenCheck();
   }, [isLoggedIn])
@@ -71,6 +72,17 @@ function App() {
   useEffect(() => {
     localStorage.setItem('result', JSON.stringify(resultMovies));
   }, [resultMovies])
+
+  useEffect(() => {
+    if(isLoggedIn) {
+      mainApi.getAllMovies()
+        .then((movies) => {
+          setSavedUsersMovies(movies)
+        })
+        .catch(() => setErrorMessage('Не найдены сохраненные фильмы'))
+    }
+
+  }, [isLoggedIn])
 
   function openNavMenu() {
     lockScroll()
@@ -90,7 +102,29 @@ function App() {
       }
       return list
     });
+    console.log(list)
     setResultMovies(list);
+  }
+
+  function saveMovie(movie) {
+
+    mainApi.saveMovie(movie)
+      .then((res) => {
+        setSavedUsersMovies([...savedUsersMovies ,res])
+      })
+      .catch((err) => console.log(err))
+
+  }
+
+  //функция удаления 
+  function deleteMovie(movie) {
+    
+    mainApi.deleteMovie(movie._id)
+    .then(() => {
+      const newList = savedUsersMovies.filter(element => element._id !== movie._id)
+      setSavedUsersMovies(newList)
+    })
+    .catch(err => console.log(err));
   }
 
   function onRegister(userEmail, userName, userPassword) {
@@ -156,7 +190,8 @@ function App() {
       .catch(err => console.log(err));
 
     localStorage.removeItem('email');
-    localStorage.removeItem('resutltOfSearch');
+    localStorage.removeItem('result');
+    setResultMovies([]);
     setIsLoggedIn(false);
     history.push('/signin');//переадресация на странцицу входа
   }
@@ -180,7 +215,10 @@ function App() {
             moviesList={moviesList}
             resultMovies={resultMovies}
             searchMovies={searchMovies}
-            isLoggedIn={isLoggedIn}/>
+            isLoggedIn={isLoggedIn}
+            savedUsersMovies={savedUsersMovies}
+            saveMovie={saveMovie}
+            deleteMovie={deleteMovie} />
 
           <ProtectedRoute
             component={SavedMovies}
@@ -189,7 +227,10 @@ function App() {
             closeNavMenu={closeNavMenu}
             isMenuOpen={isMenuOpen}
             searchMovies={searchMovies}
-            isLoggedIn={isLoggedIn} />
+            isLoggedIn={isLoggedIn}
+            savedUsersMovies={savedUsersMovies}
+            deleteMovie={deleteMovie}
+            errorMessage={errorMessage} />
 
           <ProtectedRoute
             component={Profile}

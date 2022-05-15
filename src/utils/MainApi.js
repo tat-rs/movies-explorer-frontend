@@ -7,26 +7,10 @@ class MainApi {
   }
 
   _checkResponse(res) {
-    /* if(res.ok) {
+    if(res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка: ${res.status}`) */
-    try {
-      if (res.status === 200 || res.status === 201){
-        return res.json();
-      }
-    } catch(error){
-      return (error)
-    }
-  }
-
-  getAllMovies() {
-    return fetch(`${this._url}/movies`, {
-      method: "GET",
-      credentials: "include",
-      headers: this.headers,
-    })
-    .then(this._checkResponse)
+    return Promise.reject(`Ошибка: ${res.status}`)
   }
 
   register(email, name, password) {
@@ -39,7 +23,6 @@ class MainApi {
     .then(this._checkResponse)
   };
 
-  //аутентификация
   authorize(email, password) {
     return fetch(`${this._url}/signin`, {
       method: "POST",
@@ -50,7 +33,6 @@ class MainApi {
     .then(this._checkResponse)
   };
 
-  //получаем данные пользователя
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
       method: "GET",
@@ -60,8 +42,7 @@ class MainApi {
     .then(this._checkResponse)
   }
   
-  //редактируем данные пользователя
- uptadeUserInfo(name, email) {
+  uptadeUserInfo(name, email) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       credentials: "include",
@@ -71,7 +52,6 @@ class MainApi {
     .then(this._checkResponse)
   }
 
-  //проверка токена
   getContent() {
     return fetch(`${this._url}/users/me`, {
       method: "GET",
@@ -81,7 +61,6 @@ class MainApi {
     .then(this._checkResponse)
   }
 
-  //выход из системы
   logout() {
     return fetch(`${this._url}/signout`, {
       method: "POST",
@@ -91,12 +70,53 @@ class MainApi {
     .then(this._checkResponse)
   }
 
+  getAllMovies() {
+    return fetch(`${this._url}/movies`, {
+      method: "GET",
+      credentials: "include",
+      headers: this._headers,
+    })
+    .then(this._checkResponse)
+  }
+
+  deleteMovie(id) {
+    return fetch(`${this._url}/movies/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: this._headers,
+    })
+    .then(this._checkResponse)
+  }
+  
+  saveMovie(movie) {
+    const savedMovie = {
+      country: movie.country || "Не указано",
+      director: movie.director || "Не указано",
+      duration: movie.duration || "Не указано",
+      year: movie.year || "Не указано",
+      description: movie.description,
+      image:movie.image || "Не указано",
+      trailerLink: movie.trailerLink || "Не указано",
+      nameRU: movie.nameRU || "Не указано",
+      nameEN: movie.nameEN || "Не указано",
+      thumbnail: movie.thumbnail || "Не указано",
+      movieId: movie.movieId || "Не указано",
+    }
+    return fetch(`${this._url}/movies`, {
+      method: "POST",
+      credentials: "include",
+      headers: this._headers,
+      body: JSON.stringify(savedMovie)
+    })
+    .then(this._checkResponse)
+  }
+
 }
 
 const mainApi = new MainApi({
   url: URL_MAIN_API,
   headers: {
-    "content-type": "application/json",
+    'Content-Type': 'application/json',
   }
 })
 

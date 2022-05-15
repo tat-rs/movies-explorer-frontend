@@ -2,7 +2,6 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import Preloader from "../Preloader/Preloader";
 
 import "./Movies.css";
 
@@ -13,6 +12,9 @@ function Movies({
   isLoading,
   resultMovies,
   searchMovies,
+  saveMovie,
+  savedUsersMovies,
+  deleteMovie
 }) {
 
   return (
@@ -27,7 +29,11 @@ function Movies({
         {
           resultMovies.length > 0 ? (
             <>
-              <MoviesCardList resultMovies={resultMovies}/>
+              <MoviesCardList
+                data={resultMovies}
+                saveMovie={saveMovie}
+                deleteMovie={deleteMovie} 
+                savedUsersMovies={savedUsersMovies} />
               <button className="movies__button button">Ещё</button>
             </>
           ) : (
