@@ -12,7 +12,6 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import {useScrollLock} from "../../hooks/useScroll";
 
 import "./App.css";
-import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
@@ -22,7 +21,6 @@ function App() {
 
   const [isMenuOpen, setMenuOpen] = useState(false);
   const {lockScroll, unlockScroll} = useScrollLock();
-  const [moviesList, setMoviesList] = useState(null);
   const [resultMovies, setResultMovies] = useState (
     JSON.parse(localStorage.getItem('result')) || []
   )
@@ -72,13 +70,12 @@ function App() {
   useEffect(() => {
 
     if(isLoggedIn && userEmail) {
-      Promise.all([moviesApi.getAllMovies(), mainApi.getUserInfo()])
-      .then(([movies, userData]) => {
-        setMoviesList(movies)
-        setCurrentUser(userData)
-      })
-      .catch((err) => console.log(err))
-    }
+      mainApi.getUserInfo()
+        .then((userData) => {
+          setCurrentUser(userData)
+        })
+        .catch((err) => console.log(err))
+      }
     tokenCheck();
   }, [isLoggedIn])
 
@@ -102,6 +99,7 @@ function App() {
     mainApi.getAllMovies()
       .then((movies) => {
         setSavedUsersMovies(movies)
+        setResultSavedMovies(movies)
       })
       .catch(() => setErrorMessage('Не найдены сохраненные фильмы'))
   }
@@ -120,7 +118,8 @@ function App() {
 
     mainApi.saveMovie(movie)
       .then((res) => {
-        setSavedUsersMovies([...savedUsersMovies ,res])
+        setSavedUsersMovies([...savedUsersMovies, res])
+        setResultSavedMovies([...savedUsersMovies, res])
       })
       .catch((err) => console.log(err))
 
@@ -132,6 +131,7 @@ function App() {
     .then(() => {
       const newList = savedUsersMovies.filter(element => element._id !== movie._id)
       setSavedUsersMovies(newList)
+      setResultSavedMovies(newList)
     })
     .catch(err => console.log(err));
   }
@@ -200,11 +200,17 @@ function App() {
 
     localStorage.removeItem('email');
     localStorage.removeItem('result');
+    localStorage.removeItem('resultSavedMovies');
     localStorage.removeItem('searchText');
     localStorage.removeItem('checkbox');
 
+    setSearchText({});
+    setResultMovies([]);
+    setResultSavedMovies([]);
+    setValuesCheckbox({})
+
     setIsLoggedIn(false);
-    history.push('/signin');//переадресация на странцицу входа
+    history.push('/signin');
   }
 
   return (
@@ -222,7 +228,6 @@ function App() {
             openNavMenu={openNavMenu}
             closeNavMenu={closeNavMenu}
             isMenuOpen={isMenuOpen}
-            moviesList={moviesList}
             resultMovies={resultMovies}
             isLoggedIn={isLoggedIn}
             savedUsersMovies={savedUsersMovies}
@@ -233,7 +238,8 @@ function App() {
             setSearchText={setSearchText}
             nameCheckbox='moviesCheckbox'
             valuesCheckbox={valuesCheckbox}
-            setValuesCheckbox={setValuesCheckbox} />
+            setValuesCheckbox={setValuesCheckbox}
+            nameForm='searchMovieInAll' />
 
           <ProtectedRoute
             component={SavedMovies}
@@ -241,7 +247,6 @@ function App() {
             openNavMenu={openNavMenu}
             closeNavMenu={closeNavMenu}
             isMenuOpen={isMenuOpen}
-            /* searchMovies={searchMovies} */
             isLoggedIn={isLoggedIn}
             savedUsersMovies={savedUsersMovies}
             setSavedUsersMovies={setSavedUsersMovies}
@@ -250,11 +255,11 @@ function App() {
             searchText={searchText}
             setSearchText={setSearchText}
             nameCheckbox='savedMoviesCheckbox'
-            /* onChangeCheckbox={onChangeCheckbox} */
             setValuesCheckbox={setValuesCheckbox}
             getUsersMovies={getUsersMovies}
             resultSavedMovies={resultSavedMovies}
-            setResultSavedMovies={setResultSavedMovies}  />
+            setResultSavedMovies={setResultSavedMovies}
+            nameForm='searchMovieInSaved'  />
 
           <ProtectedRoute
             component={Profile}

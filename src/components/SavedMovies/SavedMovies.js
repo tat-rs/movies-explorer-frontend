@@ -19,19 +19,12 @@ function SavedMovies({
   setSearchText,
   setValuesCheckbox,
   resultSavedMovies,
-  setResultSavedMovies
+  setResultSavedMovies,
+  nameForm
 }) {
 
   const [isResult, setIsResult] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if(resultSavedMovies.length === 0) {
-      setIsResult(true)
-    } else {
-      setIsResult(false)
-    }
-  }, [resultSavedMovies])
 
   function searchMovies(data) {
     setIsLoading(true)
@@ -48,7 +41,6 @@ function SavedMovies({
   }
 
   function onChangeCheckbox(evt) {
-    setIsLoading(true)
 
     let name = evt?.target.name;
     let checked = evt?.target.checked;
@@ -67,10 +59,11 @@ function SavedMovies({
       }
       return list
     });
-    setIsLoading(false)
     setResultSavedMovies(list);
+    } else if(valuesCheckbox[name] && (!Object.keys(searchText).length || !searchText[nameForm] || searchText[nameForm] === "")) {
+      setResultSavedMovies(savedUsersMovies)
     } else {
-      searchMovies(searchText['searchMovieInSaved'])
+      searchMovies(searchText[nameForm])
     }
   }
   
@@ -83,27 +76,31 @@ function SavedMovies({
 
         <section className="movies page__movies">
           <SearchForm
-           valuesCheckbox={valuesCheckbox}
-           onChangeCheckbox={onChangeCheckbox}
-           nameCheckbox={nameCheckbox}
-           nameForm='searchMovieInSaved'
-           list={savedUsersMovies}
-           setList={setSavedUsersMovies}
-           searchMovies={searchMovies}
-           searchText={searchText}
+            valuesCheckbox={valuesCheckbox}
+            onChangeCheckbox={onChangeCheckbox}
+            nameCheckbox={nameCheckbox}
+            nameForm={nameForm}
+            list={savedUsersMovies}
+            setList={setSavedUsersMovies}
+            searchMovies={searchMovies}
+            searchText={searchText}
             setSearchText={setSearchText} />
-          {
-            isLoading ? (
-              <Preloader />
-            ) : isResult ? (
-              <p className="movies__result">Ничего не найдено</p>
-            ) : (
-              <MoviesCardList
-                data={resultSavedMovies.length > 0 ? resultSavedMovies : savedUsersMovies}
-                savedUsersMovies={savedUsersMovies}
-                deleteMovie={deleteMovie} />
-            )
-          }
+            
+            <MoviesCardList
+              data={resultSavedMovies}
+              savedUsersMovies={savedUsersMovies}
+              deleteMovie={deleteMovie} />
+            {
+              savedUsersMovies.length === 0 && (
+                <p className="movies__result">У вас нет сохраненных фильмов</p>
+              )
+            }
+
+            {
+              resultSavedMovies.length === 0 && (
+                <p className="movies__result">Ничего не найдено</p>
+              )
+            }
           
         </section>
         

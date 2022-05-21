@@ -6,13 +6,13 @@ import Footer from "../Footer/Footer";
 import "./Movies.css";
 import { useState } from "react";
 import Preloader from "../Preloader/Preloader";
+import moviesApi from "../../utils/MoviesApi";
 
 function Movies({
   openNavMenu,
   closeNavMenu,
   isMenuOpen,
   resultMovies,
-  moviesList,
   setResultMovies,
   saveMovie,
   savedUsersMovies,
@@ -21,13 +21,24 @@ function Movies({
   setSearchText,
   nameCheckbox,
   valuesCheckbox,
-  setValuesCheckbox
+  setValuesCheckbox,
+  nameForm
 }) {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [moviesList, setMoviesList] = useState(null);
+
   function searchMovies(data) {
+
     setIsLoading(true)
+
+    moviesApi.getAllMovies()
+      .then((movies) => {
+        setMoviesList(movies)
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false))
     
     let list = []
     
@@ -37,13 +48,11 @@ function Movies({
       }
       return list
     });
-    setIsLoading(false)
     setResultMovies(list);
     
   }
 
    function onChangeCheckbox(evt) {
-    setIsLoading(true)
 
     let name = evt?.target.name;
     let checked = evt?.target.checked;
@@ -55,17 +64,19 @@ function Movies({
 
     let list = []
 
-    if(!valuesCheckbox[name] && resultMovies?.length > 0) {
+    if(!valuesCheckbox[name] && resultMovies?.length !== 0 ) {
       resultMovies.forEach(item => {
       if(item.duration <= 40) {
         return list = [...list, item]
       }
       return list
     });
-    setTimeout(() => {setIsLoading(false)}, 500)
     setResultMovies(list);
-    } else {
-      searchMovies(searchText['searchMovieInAll'])
+    } else if(!Object.keys(searchText).length || !searchText[nameForm] || searchText[nameForm] === "") {
+      return
+    }
+      else {
+      searchMovies(searchText[nameForm])
     }
   }
 
@@ -81,7 +92,7 @@ function Movies({
           valuesCheckbox={valuesCheckbox}
           onChangeCheckbox={onChangeCheckbox}
           nameCheckbox={nameCheckbox}
-          nameForm='searchMovieInAll'
+          nameForm={nameForm}
           list={resultMovies}
           setList={setResultMovies}
           searchMovies={searchMovies}
