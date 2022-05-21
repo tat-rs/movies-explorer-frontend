@@ -26,7 +26,7 @@ function AuthForm({
     <section className="auth-form">
       <Logo className="auth-form__logo"/>
       <form
-        className="form"
+        className="auth-form__form form"
         name={nameForm}
         onSubmit={onSubmit}
         noValidate >

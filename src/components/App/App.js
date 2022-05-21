@@ -22,9 +22,18 @@ function App() {
 
   const [isMenuOpen, setMenuOpen] = useState(false);
   const {lockScroll, unlockScroll} = useScrollLock();
-  const [isLoading, setIsLoading] = useState(true);
   const [moviesList, setMoviesList] = useState(null);
-  const [resultMovies, setResultMovies] = useState([]);
+  const [resultMovies, setResultMovies] = useState (
+    JSON.parse(localStorage.getItem('result')) || []
+  )
+
+  const [resultSavedMovies, setResultSavedMovies] = useState (
+    JSON.parse(localStorage.getItem('resultSavedMovies')) || []
+  )
+
+  const [searchText, setSearchText] = useState (
+    JSON.parse(localStorage.getItem('searchText')) || {}
+  )
   
   const userEmail = localStorage.getItem('email');
 
@@ -38,6 +47,10 @@ function App() {
 });
 
   const [savedUsersMovies, setSavedUsersMovies] = useState([]);
+
+  const [valuesCheckbox, setValuesCheckbox] = useState(
+    JSON.parse(localStorage.getItem('checkbox')) || {}
+  );
 
   const history = useHistory();
 
@@ -70,19 +83,28 @@ function App() {
   }, [isLoggedIn])
 
   useEffect(() => {
-    localStorage.setItem('result', JSON.stringify(resultMovies));
-  }, [resultMovies])
+    if(isLoggedIn && userEmail) {
+      localStorage.setItem('result', JSON.stringify(resultMovies));
+      localStorage.setItem('searchText', JSON.stringify(searchText));
+      localStorage.setItem('checkbox', JSON.stringify(valuesCheckbox));
+      localStorage.setItem('resultSavedMovies', JSON.stringify(resultSavedMovies));
+    }
+  }, [isLoggedIn, resultMovies, searchText, valuesCheckbox, resultSavedMovies])
 
   useEffect(() => {
     if(isLoggedIn) {
-      mainApi.getAllMovies()
-        .then((movies) => {
-          setSavedUsersMovies(movies)
-        })
-        .catch(() => setErrorMessage('Не найдены сохраненные фильмы'))
+      getUsersMovies()
     }
 
   }, [isLoggedIn])
+
+  function getUsersMovies() {
+    mainApi.getAllMovies()
+      .then((movies) => {
+        setSavedUsersMovies(movies)
+      })
+      .catch(() => setErrorMessage('Не найдены сохраненные фильмы'))
+  }
 
   function openNavMenu() {
     lockScroll()
@@ -92,18 +114,6 @@ function App() {
   function closeNavMenu() {
     unlockScroll()
     setMenuOpen(false)
-  }
-
-  function searchMovies(data) {
-    let list = []
-    moviesList.forEach(item => {
-      if(item.nameRU.toLowerCase().includes(data.toLowerCase())) {
-        return list = [...list, item]
-      }
-      return list
-    });
-    console.log(list)
-    setResultMovies(list);
   }
 
   function saveMovie(movie) {
@@ -116,7 +126,6 @@ function App() {
 
   }
 
-  //функция удаления 
   function deleteMovie(movie) {
     
     mainApi.deleteMovie(movie._id)
@@ -191,7 +200,9 @@ function App() {
 
     localStorage.removeItem('email');
     localStorage.removeItem('result');
-    setResultMovies([]);
+    localStorage.removeItem('searchText');
+    localStorage.removeItem('checkbox');
+
     setIsLoggedIn(false);
     history.push('/signin');//переадресация на странцицу входа
   }
@@ -211,14 +222,18 @@ function App() {
             openNavMenu={openNavMenu}
             closeNavMenu={closeNavMenu}
             isMenuOpen={isMenuOpen}
-            isLoading={isLoading}
             moviesList={moviesList}
             resultMovies={resultMovies}
-            searchMovies={searchMovies}
             isLoggedIn={isLoggedIn}
             savedUsersMovies={savedUsersMovies}
             saveMovie={saveMovie}
-            deleteMovie={deleteMovie} />
+            deleteMovie={deleteMovie}
+            setResultMovies={setResultMovies}
+            searchText={searchText}
+            setSearchText={setSearchText}
+            nameCheckbox='moviesCheckbox'
+            valuesCheckbox={valuesCheckbox}
+            setValuesCheckbox={setValuesCheckbox} />
 
           <ProtectedRoute
             component={SavedMovies}
@@ -226,11 +241,20 @@ function App() {
             openNavMenu={openNavMenu}
             closeNavMenu={closeNavMenu}
             isMenuOpen={isMenuOpen}
-            searchMovies={searchMovies}
+            /* searchMovies={searchMovies} */
             isLoggedIn={isLoggedIn}
             savedUsersMovies={savedUsersMovies}
+            setSavedUsersMovies={setSavedUsersMovies}
             deleteMovie={deleteMovie}
-            errorMessage={errorMessage} />
+            valuesCheckbox={valuesCheckbox}
+            searchText={searchText}
+            setSearchText={setSearchText}
+            nameCheckbox='savedMoviesCheckbox'
+            /* onChangeCheckbox={onChangeCheckbox} */
+            setValuesCheckbox={setValuesCheckbox}
+            getUsersMovies={getUsersMovies}
+            resultSavedMovies={resultSavedMovies}
+            setResultSavedMovies={setResultSavedMovies}  />
 
           <ProtectedRoute
             component={Profile}
@@ -256,12 +280,12 @@ function App() {
 
           <Route path="/signup">
             <Register
-            title="Добро пожаловать!"
-            textOfButton="Зарегистрироваться"
-            nameForm="sign-up"
-            onRegister={onRegister}
-            errorMessage={errorMessage}
-            setErrorMessage={setErrorMessage} />
+              title="Добро пожаловать!"
+              textOfButton="Зарегистрироваться"
+              nameForm="sign-up"
+              onRegister={onRegister}
+              errorMessage={errorMessage}
+              setErrorMessage={setErrorMessage} />
           </Route>
 
           <Route path="*">

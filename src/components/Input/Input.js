@@ -8,7 +8,6 @@ function Input({
   placeholder,
   value,
   onChange,
-  isValid,
   className,
   required,
   error

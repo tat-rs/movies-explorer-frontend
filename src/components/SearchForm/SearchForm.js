@@ -1,47 +1,63 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "../../hooks/useForm";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
 import "./SearchForm.css";
 
 function SearchForm({
-  searchMovies
+  nameCheckbox,
+  nameForm,
+  searchMovies,
+  list,
+  setList,
+  searchText,
+  setSearchText,
+  valuesCheckbox,
+  onChangeCheckbox,
 }) {
 
-  const [values, setValues] = useState({});
+  const {values, setValues, handleChange} = useForm();
 
-  function handleChangeInput(evt) {
-    let name = evt.target.name
-    let value = evt.target.value
-
+  useEffect(() => {
     setValues({
       ...values,
-      [name] : value,
+      [nameForm]: searchText[nameForm],
     })
-  }
+  }, [])
 
   function onSubmit(evt) {
     evt.preventDefault()
-    searchMovies(values.searchMovie)
+    setSearchText({
+      ...searchText,
+      [nameForm]: values[nameForm]
+    })
+    searchMovies(values[nameForm])
   }
 
   return (
     <div className="page__search">
-      <form className="search movies__search" name="search-movie" onSubmit={onSubmit}>
+      <form className="form search movies__search" name={nameForm} onSubmit={onSubmit}>
         <label className="search__label" htmlFor="search-movie">
           <input
             className="search__input"
             id="search-movie"
-            name="searchMovie"
+            name={nameForm}
             type="text"
             placeholder="Фильм"
-            value={values.searchMovie || ""} 
-            onChange={handleChangeInput}
+            value={values[nameForm] || ''} 
+            onChange={handleChange}
             required />
         </label>
         <button className="search__btn button" type="submit">Найти</button>
       </form>
       <div className="search__checkbox">
-        <FilterCheckbox />
+        <FilterCheckbox
+        list={list}
+        setList={setList}
+        values={valuesCheckbox}
+        onChangeCheckbox={onChangeCheckbox}
+        name={nameCheckbox}
+        />
         <p className="search__checkbox-text">Короткометражки</p>
       </div>
     </div>
