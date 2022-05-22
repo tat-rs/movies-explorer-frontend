@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../Logo/Logo";
 
@@ -15,12 +14,8 @@ function AuthForm({
   onSubmit,
   isValid,
   errorMessage,
-  setErrorMessage
+  successMessage
 }) {
-
-  useEffect(() => {
-    setErrorMessage("")
-  }, [])
 
   return (
     <section className="auth-form">
@@ -37,7 +32,7 @@ function AuthForm({
           </div>
         </div>
         <div className="form__btn-container">
-          <span className="form__error">{errorMessage}</span>
+        <span className={`${successMessage ? 'form__success-text' : 'form__error' }`}>{successMessage ? successMessage : errorMessage}</span>
           <button
             className={`form__button ${!isValid ? 'form__button_disabled' : 'button'}`}
             type="submit"

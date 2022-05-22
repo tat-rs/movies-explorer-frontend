@@ -2,13 +2,11 @@ export const URL_MOVIE_API = 'https://api.nomoreparties.co/beatfilm-movies';
 /*  export const URL_MAIN_API = 'https://api.movie-explorer22.nomoredomains.work'; */
 export const URL_MAIN_API = 'http://localhost:3000';
 
-export const RegExpEmail = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+export const RegExpEmail = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
 
-export const RegExpName = new RegExp(/^[а-яА-ЯёЁa-zA-Z\s/-]+$/);
+export const RegExpName = "^[а-яА-ЯёЁa-zA-Z\s/-]+$"
 
-export const ERROR_REQUIRED = "Вы пропустили это поле";
-
-export const ERROR_NAME_LENGTH = "Имя пользователя должно содержать от 2 до 30 символов";
+export const ERROR_EMAIL_FORMAT = "Введите e-mail в формате: ivanov@yandex.ru";
 
 export const ERROR_NAME_FORMAT = "Имя пользователя должно содержать только латиницу, кириллицу, пробел или дефис";
 

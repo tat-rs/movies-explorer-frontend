@@ -66,6 +66,18 @@
   max-width: calc(100% - 40px);
 }
 
+.form__success-text {
+  display: block;
+  margin: 0 auto 20px;
+  min-height: 14px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #509d44;
+  max-width: calc(100% - 40px);
+}
+
 .form__button {
   width: 100%;
   min-width: 260px;

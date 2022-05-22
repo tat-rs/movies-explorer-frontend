@@ -3,8 +3,6 @@ import SearchForm from "../SearchForm/SearchForm";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { useEffect, useState } from "react";
-import Preloader from "../Preloader/Preloader";
 
 function SavedMovies({
   openNavMenu,
@@ -23,11 +21,7 @@ function SavedMovies({
   nameForm
 }) {
 
-  const [isResult, setIsResult] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
   function searchMovies(data) {
-    setIsLoading(true)
 
     let list = []
     savedUsersMovies.forEach(item => {
@@ -36,7 +30,6 @@ function SavedMovies({
       }
       return list
     });
-    setTimeout(() => {setIsLoading(false)}, 500)
     setResultSavedMovies(list);
   }
 
@@ -97,7 +90,7 @@ function SavedMovies({
             }
 
             {
-              resultSavedMovies.length === 0 && (
+              savedUsersMovies.length !== 0 && resultSavedMovies.length === 0 && (
                 <p className="movies__result">Ничего не найдено</p>
               )
             }

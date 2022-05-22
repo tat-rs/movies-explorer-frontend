@@ -1,5 +1,4 @@
 .search {
-  display: flex;
   position: relative;
 }
 
@@ -11,11 +10,11 @@
   margin: 0 0 41px;
 }
 
-.search__label {
+.label_type_search-form {
   width: 100%;
 }
 
-.search__input {
+.input_type_search-form {
   width: 100%;
   box-sizing: border-box;
   padding: 14px 84px 14px 22px;
@@ -27,26 +26,26 @@
   line-height: 131%;
 }
 
-.search__input:focus {
+.input_type_search-form:focus {
   outline: 1px solid #3456F3;
 }
 
-.search__input::placeholder {
+.input_type_search-form::placeholder {
   color: #A0A0A0;
   opacity: 1;
 }
 
-.search__input::-webkit-placeholder {
+.input_type_search-form::-webkit-placeholder {
   color: #A0A0A0;
   opacity: 1;
 }
 
-.search__input::-ms-input-placeholder {
+.input_type_search-form::-ms-input-placeholder {
   color: #A0A0A0;
   opacity: 1;
 }
 
-.search__input::-moz-placeholder {
+.input_type_search-form::-moz-placeholder {
   color: #A0A0A0;
   opacity: 1;
 }

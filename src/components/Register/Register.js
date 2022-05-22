@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useForm } from "../../hooks/useForm";
+import { ERROR_EMAIL_FORMAT, ERROR_NAME_FORMAT, RegExpEmail, RegExpName } from "../../utils/constants";
 import AuthForm from "../AuthForm/AuthForm";
 import Input from "../Input/Input";
 
@@ -8,15 +10,19 @@ function Register({
   textOfButton,
   onRegister,
   errorMessage,
-  setErrorMessage
+  setErrorMessage,
 }) {
 
   const {values, errors, isValid, handleChange, resetForm} = useForm();
 
+  useEffect(() => {
+    resetForm()
+    setErrorMessage('')
+  }, [])
+
   function handleSubmit(evt) {
     evt.preventDefault();
     onRegister(values.email, values.name, values.password);
-    resetForm();
   }
 
   return (
@@ -40,6 +46,10 @@ function Register({
         name="name"
         value={values.name || ""}
         error={errors.name}
+        pattern={RegExpName}
+        minLength="2"
+        maxLength="30"
+        title={ERROR_NAME_FORMAT}
         isValid={isValid}
         onChange={handleChange}
         required
@@ -52,6 +62,8 @@ function Register({
         name="email"
         value={values.email || ""} 
         error={errors.email}
+        pattern={RegExpEmail}
+        title={ERROR_EMAIL_FORMAT}
         isValid={isValid}
         onChange={handleChange}
         required

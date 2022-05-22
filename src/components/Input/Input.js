@@ -10,7 +10,11 @@ function Input({
   onChange,
   className,
   required,
-  error
+  error,
+  pattern,
+  minLength,
+  maxLength,
+  title
 }) {
 
   return (
@@ -25,10 +29,14 @@ function Input({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        required={required} />
-      </label>
-      <span className={`error ${className ? `error_type_${className}` : ''}`}>{error || ''}</span>
-    </div>
+        required={required}
+        pattern={pattern}
+        minLength={minLength}
+        maxLength={maxLength}
+        title={title} />
+    </label>
+    <span className={`error ${className ? `error_type_${className}` : ''}`}>{error && title ? title : (error || '')}</span>
+  </div>
   )
 }
 

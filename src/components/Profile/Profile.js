@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 import { useForm } from "../../hooks/useForm";
+import { ERROR_EMAIL_FORMAT, ERROR_NAME_FORMAT, RegExpEmail, RegExpName } from "../../utils/constants";
 import Header from "../Header/Header";
 import Input from "../Input/Input";
 
@@ -13,7 +14,9 @@ function Profile({
   logout,
   errorMessage,
   setErrorMessage,
-  updateUserInfo
+  updateUserInfo,
+  successMessage,
+  setSuccessMessage
 }) {
 
   const currentUserData = useContext(CurrentUserContext);
@@ -24,6 +27,7 @@ function Profile({
     setIsValid(false)
     setErrors({})
     setErrorMessage('')
+    setSuccessMessage('')
     setValues({
       ...values, name: currentUserData.user.name, email: currentUserData.user.email
     })
@@ -43,7 +47,7 @@ function Profile({
       
     <section className="profile">
       <h2 className="profile__title">{`Привет, ${currentUserData.user.name}!`}</h2>
-      <form className="form profile__form" name="editor-profile" onSubmit={handleSubmit}>
+      <form className="form profile__form" name="editor-profile" onSubmit={handleSubmit} noValidate>
         <div>
         <Input
           className="profile"
@@ -53,6 +57,10 @@ function Profile({
           name="name"
           value={values.name || ''}
           error={errors.name}
+          pattern={RegExpName}
+          minLength="2"
+          maxLength="30"
+          title={ERROR_NAME_FORMAT}
           isValid={isValid}
           onChange={handleChange}
           required />
@@ -65,11 +73,13 @@ function Profile({
           name="email"
           value={values.email || ''}
           error={errors.email}
+          pattern={RegExpEmail}
+          title={ERROR_EMAIL_FORMAT}
           isValid={isValid}
           onChange={handleChange}
           required />
         </div>
-        <span>{errorMessage}</span>
+        <span className={`${successMessage ? 'form__success-text' : 'form__error' }`}>{successMessage ? successMessage : errorMessage}</span>
         <div className="buttons__container">
           <button className="profile__button link" type='submit' disabled={!isValid}>Редактировать</button>
           <button className="profile__button profile__button_type_signout link" type="button" onClick={logout}>Выйти из аккаунта</button>

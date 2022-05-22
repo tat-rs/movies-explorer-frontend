@@ -27,28 +27,27 @@ function Movies({
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [moviesList, setMoviesList] = useState(null);
+  async function searchMovies(data) {
 
-  function searchMovies(data) {
+    try {
+      setIsLoading(true)
+      const moviesList = await moviesApi.getAllMovies()
 
-    setIsLoading(true)
-
-    moviesApi.getAllMovies()
-      .then((movies) => {
-        setMoviesList(movies)
-      })
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false))
+      let list = []
     
-    let list = []
-    
-    moviesList?.forEach(item => {
-      if(item?.nameRU.toLowerCase().includes(data.toLowerCase())) {
-        return list = [...list, item]
-      }
-      return list
-    });
-    setResultMovies(list);
+      moviesList?.forEach(item => {
+        if(item?.nameRU.toLowerCase().includes(data.toLowerCase())) {
+          return list = [...list, item]
+        }
+        return list
+      });
+      setResultMovies(list);
+      setIsLoading(false)
+    }
+
+    catch {
+      setIsLoading(false)
+    }
     
   }
 

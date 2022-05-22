@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useForm } from "../../hooks/useForm";
+import { ERROR_EMAIL_FORMAT, RegExpEmail } from "../../utils/constants";
 import AuthForm from "../AuthForm/AuthForm";
 import Input from "../Input/Input";
 
@@ -8,14 +10,18 @@ function Login({
   textOfButton,
   onLogin,
   errorMessage,
-  setErrorMessage
+  setErrorMessage,
 }) {
   const {values, errors, isValid, handleChange, resetForm} = useForm();
+
+  useEffect(() => {
+    resetForm()
+    setErrorMessage('')
+  }, [])
 
   function handleSubmit(evt) {
     evt.preventDefault();
     onLogin(values.email, values.password);
-    resetForm();
   }
 
   return (
@@ -39,6 +45,8 @@ function Login({
         name="email"
         value={values.email || ""} 
         onChange={handleChange}
+        pattern={RegExpEmail}
+        title={ERROR_EMAIL_FORMAT}
         isValid={isValid}
         error={errors.email}
         required />

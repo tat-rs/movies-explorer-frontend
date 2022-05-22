@@ -36,7 +36,9 @@ function App() {
   const userEmail = localStorage.getItem('email');
 
   const [isLoggedIn, setIsLoggedIn] = useState();
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [isLoading, setisLoading] = useState("");
   const [currentUser, setCurrentUser] = useState({
     user: {
       name: "",
@@ -137,6 +139,7 @@ function App() {
   }
 
   function onRegister(userEmail, userName, userPassword) {
+    setisLoading(true)
     
     mainApi.register(userEmail, userName, userPassword)
       .then((res) => {
@@ -146,16 +149,22 @@ function App() {
             email: userEmail
           })
           onLogin(userEmail, userPassword)
+          setSuccessMessage("Вы успешно зарегистрированы")
         }
         else {
           setErrorMessage(ERROR_REGISTER)
         }
       })
-      .catch((err) => console.log(err))
+      .catch(() => setErrorMessage(ERROR_REGISTER))
+      .finally(() => {
+        setSuccessMessage('')
+        setisLoading(false)
+      })
   }
 
   //функция перехода на страницу пользователя
   function onLogin(userEmail, userPassword) {
+    setisLoading(true)
 
     mainApi.authorize(userEmail, userPassword)
       .then((data) => {
@@ -167,17 +176,21 @@ function App() {
           setErrorMessage(ERROR_AUTH)
         }
       })
-      .catch((err) => {
-        console.log(err)
+      .catch(() => {
+        setErrorMessage(ERROR_AUTH)
+      })
+      .finally(() => {
+        setisLoading(false)
       })
   }
 
   function updateUserInfo(userName, userEmail) {
+    setisLoading(true)
     
     mainApi.uptadeUserInfo(userName, userEmail)
       .then((userData) => {
-        console.log(userData)
         if(userData) {
+          setSuccessMessage("Данные успешно обновлены")
           setCurrentUser({
             user: {
               name: userName,
@@ -190,6 +203,9 @@ function App() {
         }
       })
       .catch((err) => console.log(err))
+      .finally(() => {
+        setisLoading(false);
+      })
   }
 
   //функция выхода из системы
@@ -207,7 +223,7 @@ function App() {
     setSearchText({});
     setResultMovies([]);
     setResultSavedMovies([]);
-    setValuesCheckbox({})
+    setValuesCheckbox({});
 
     setIsLoggedIn(false);
     history.push('/signin');
@@ -271,12 +287,14 @@ function App() {
             isLoggedIn={isLoggedIn}
             errorMessage={errorMessage}
             setErrorMessage={setErrorMessage}
-            updateUserInfo={updateUserInfo} />
+            updateUserInfo={updateUserInfo}
+            successMessage={successMessage}
+            setSuccessMessage={setSuccessMessage} />
 
           <Route path="/signin">
             <Login
               title="Рады видеть!"
-              textOfButton="Войти"
+              textOfButton={isLoading ? "Войти..." : "Войти"}
               nameForm="sign-in" 
               onLogin={onLogin}
               errorMessage={errorMessage}
@@ -286,7 +304,7 @@ function App() {
           <Route path="/signup">
             <Register
               title="Добро пожаловать!"
-              textOfButton="Зарегистрироваться"
+              textOfButton={isLoading ? "Регистрация..." : "Зарегистрироваться"}
               nameForm="sign-up"
               onRegister={onRegister}
               errorMessage={errorMessage}
