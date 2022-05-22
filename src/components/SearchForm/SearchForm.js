@@ -17,7 +17,7 @@ function SearchForm({
   onChangeCheckbox,
 }) {
 
-  const {values, setValues, errors, isValid, handleChange} = useForm();
+  const {values, setValues, isValid, handleChange} = useForm();
 
   useEffect(() => {
     setValues({
@@ -53,12 +53,9 @@ function SearchForm({
       </form>
       <div className="search__checkbox">
         <FilterCheckbox
-        list={list}
-        setList={setList}
-        values={valuesCheckbox}
-        onChangeCheckbox={onChangeCheckbox}
-        name={nameCheckbox}
-        />
+          values={valuesCheckbox}
+          onChangeCheckbox={onChangeCheckbox}
+          name={nameCheckbox} />
         <p className="search__checkbox-text">Короткометражки</p>
       </div>
     </div>

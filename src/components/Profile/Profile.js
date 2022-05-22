@@ -1,9 +1,12 @@
 import { useContext, useEffect } from "react";
-import { CurrentUserContext } from "../../context/CurrentUserContext";
+
 import { useForm } from "../../hooks/useForm";
-import { ERROR_EMAIL_FORMAT, ERROR_NAME_FORMAT, RegExpEmail, RegExpName } from "../../utils/constants";
+
 import Header from "../Header/Header";
 import Input from "../Input/Input";
+
+import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { ERROR_EMAIL_FORMAT, ERROR_NAME_FORMAT, RegExpEmail, RegExpName } from "../../utils/constants";
 
 import "./Profile.css";
 
@@ -24,13 +27,15 @@ function Profile({
   const {values, setValues, errors, setErrors, isValid, setIsValid, handleChange} = useForm();
 
   useEffect(() => {
-    setIsValid(false)
-    setErrors({})
-    setErrorMessage('')
-    setSuccessMessage('')
+    setIsValid(false);
+    setErrors({});
+    setErrorMessage('');
+    setSuccessMessage('');
     setValues({
-      ...values, name: currentUserData.user.name, email: currentUserData.user.email
-    })
+      ...values,
+      name: currentUserData.user.name,
+      email: currentUserData.user.email
+    });
   }, []);
 
   function handleSubmit(evt) {
@@ -79,10 +84,22 @@ function Profile({
           onChange={handleChange}
           required />
         </div>
-        <span className={`${successMessage ? 'form__success-text' : 'form__error' }`}>{successMessage ? successMessage : errorMessage}</span>
+        <span className={`${successMessage ? 'form__success-text' : 'form__error' }`}>
+          {successMessage ? successMessage : errorMessage}
+        </span>
         <div className="buttons__container">
-          <button className="profile__button link" type='submit' disabled={!isValid}>Редактировать</button>
-          <button className="profile__button profile__button_type_signout link" type="button" onClick={logout}>Выйти из аккаунта</button>
+          <button
+            className="profile__button link"
+            type='submit'
+            disabled={!isValid}>
+              Редактировать
+          </button>
+          <button
+            className="profile__button profile__button_type_signout link"
+            type="button"
+            onClick={logout}>
+              Выйти из аккаунта
+          </button>
         </div>
       </form>
     </section>

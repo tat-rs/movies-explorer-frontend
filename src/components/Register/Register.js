@@ -1,8 +1,10 @@
 import { useEffect } from "react";
-import { useForm } from "../../hooks/useForm";
-import { ERROR_EMAIL_FORMAT, ERROR_NAME_FORMAT, RegExpEmail, RegExpName } from "../../utils/constants";
+
 import AuthForm from "../AuthForm/AuthForm";
 import Input from "../Input/Input";
+
+import { useForm } from "../../hooks/useForm";
+import { ERROR_EMAIL_FORMAT, ERROR_NAME_FORMAT, RegExpEmail, RegExpName } from "../../utils/constants";
 
 function Register({
   nameForm,

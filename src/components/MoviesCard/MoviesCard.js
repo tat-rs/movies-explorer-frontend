@@ -58,10 +58,16 @@ function MoviesCard({
 
   return (
     <li className="card">
-      <img className="card__image"
-        src={`${movie.image?.url ? `https://api.nomoreparties.co${movie.image?.url}` : movie.image}`}
-        alt={movie.nameRU}>
-      </img>
+      <a
+        className="card__link link"
+        href={movie.trailerLink}
+        target="_blank"
+        rel="noreferrer">
+          <img className="card__image"
+            src={`${movie.image?.url ? `https://api.nomoreparties.co${movie.image?.url}` : movie.image}`}
+            alt={movie.nameRU}>
+          </img>
+      </a>
       <div className="card__container">
         <h3 className="card__title">{movie.nameRU}</h3>
         <Switch>

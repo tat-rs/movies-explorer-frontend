@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Login from "../Login/Login";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
@@ -9,48 +10,49 @@ import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import SavedMovies from "../SavedMovies/SavedMovies";
 
+import mainApi from "../../utils/MainApi";
+
+import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { ERROR_AUTH, ERROR_REGISTER, ERROR_UPTADE_PROFILE } from "../../utils/constants";
+
 import {useScrollLock} from "../../hooks/useScroll";
 
 import "./App.css";
-import mainApi from "../../utils/MainApi";
-import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import { CurrentUserContext } from "../../context/CurrentUserContext";
-import { ERROR_AUTH, ERROR_REGISTER, ERROR_UPTADE_PROFILE } from "../../utils/constants";
 
 function App() {
 
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const {lockScroll, unlockScroll} = useScrollLock();
+  //результат поиска по всем фильмам
   const [resultMovies, setResultMovies] = useState (
     JSON.parse(localStorage.getItem('result')) || []
   )
-
+  //результат поиска по сохраненным фильмам
   const [resultSavedMovies, setResultSavedMovies] = useState (
     JSON.parse(localStorage.getItem('resultSavedMovies')) || []
   )
-
+  //массив сохраненных фильмов
+  const [savedUsersMovies, setSavedUsersMovies] = useState([]);
+  //объект со значением инпута поиска
   const [searchText, setSearchText] = useState (
     JSON.parse(localStorage.getItem('searchText')) || {}
   )
-  
-  const userEmail = localStorage.getItem('email');
-
-  const [isLoggedIn, setIsLoggedIn] = useState();
+  //состояние чекбокса
+  const [valuesCheckbox, setValuesCheckbox] = useState(
+    JSON.parse(localStorage.getItem('checkbox')) || {}
+  );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [isLoading, setisLoading] = useState("");
+  const [isLoading, setisLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState({
     user: {
       name: "",
       email: "",
     }
 });
+  const userEmail = localStorage.getItem('email');
 
-  const [savedUsersMovies, setSavedUsersMovies] = useState([]);
-
-  const [valuesCheckbox, setValuesCheckbox] = useState(
-    JSON.parse(localStorage.getItem('checkbox')) || {}
-  );
+  const {lockScroll, unlockScroll} = useScrollLock();
 
   const history = useHistory();
 
@@ -60,26 +62,30 @@ function App() {
       mainApi.getContent()
         .then((data) => data)
         .then((res) => {
-          if(res?.email)
-          localStorage.setItem('email', res.email); //обновили стейт эл. почты пользователя
-          setIsLoggedIn(true); //обновлен статус пользователя - зарегистрирован
-          history.push('/movies'); //переадресация на страницу пользователя
+          if(res?.email) {
+            localStorage.setItem('email', res.email); //обновили стейт эл. почты пользователя
+            setIsLoggedIn(true); //обновлен статус пользователя - зарегистрирован
+            history.push('/movies'); //переадресация на страницу пользователя
+          }
         })
         .catch(err => console.log(err))
     }
   }
 
   useEffect(() => {
-
+    //получаем данные пользователя
     if(isLoggedIn && userEmail) {
       mainApi.getUserInfo()
         .then((userData) => {
           setCurrentUser(userData)
         })
         .catch((err) => console.log(err))
+        getUsersMovies();
       }
     tokenCheck();
   }, [isLoggedIn])
+
+  console.log(isLoggedIn)
 
   useEffect(() => {
     if(isLoggedIn && userEmail) {
@@ -90,13 +96,7 @@ function App() {
     }
   }, [isLoggedIn, resultMovies, searchText, valuesCheckbox, resultSavedMovies])
 
-  useEffect(() => {
-    if(isLoggedIn) {
-      getUsersMovies()
-    }
-
-  }, [isLoggedIn])
-
+  //получаем сохраненные фильмы
   function getUsersMovies() {
     mainApi.getAllMovies()
       .then((movies) => {
@@ -106,27 +106,29 @@ function App() {
       .catch(() => setErrorMessage('Не найдены сохраненные фильмы'))
   }
 
+  //открыть меню навигации
   function openNavMenu() {
     lockScroll()
     setMenuOpen(true)
   }
-
+  //закрыть меню навигации
   function closeNavMenu() {
     unlockScroll()
     setMenuOpen(false)
   }
 
+  //сохранение фильмов по клику на лайк
   function saveMovie(movie) {
 
     mainApi.saveMovie(movie)
       .then((res) => {
-        setSavedUsersMovies([...savedUsersMovies, res])
-        setResultSavedMovies([...savedUsersMovies, res])
+        setSavedUsersMovies([...savedUsersMovies, res]) //обновили стейт сохраненных фильмов
+        setResultSavedMovies([...savedUsersMovies, res]) //обновили стейт резульата сохраненных фильмов
       })
       .catch((err) => console.log(err))
 
   }
-
+  //удаление фильмов из сохраненных
   function deleteMovie(movie) {
     
     mainApi.deleteMovie(movie._id)
@@ -138,6 +140,7 @@ function App() {
     .catch(err => console.log(err));
   }
 
+  //регистрация
   function onRegister(userEmail, userName, userPassword) {
     setisLoading(true)
     
@@ -148,8 +151,8 @@ function App() {
             name: userName,
             email: userEmail
           })
-          onLogin(userEmail, userPassword)
-          setSuccessMessage("Вы успешно зарегистрированы")
+          onLogin(userEmail, userPassword); //авторизация
+          setSuccessMessage("Вы успешно зарегистрированы");
         }
         else {
           setErrorMessage(ERROR_REGISTER)
@@ -158,20 +161,22 @@ function App() {
       .catch(() => setErrorMessage(ERROR_REGISTER))
       .finally(() => {
         setSuccessMessage('')
+        setErrorMessage('')
         setisLoading(false)
       })
   }
 
-  //функция перехода на страницу пользователя
+  //авторизация и переход на страницу пользователя
   function onLogin(userEmail, userPassword) {
     setisLoading(true)
 
     mainApi.authorize(userEmail, userPassword)
       .then((data) => {
         if(data?.token) {
+          console.log(data)
           localStorage.setItem('email', userEmail);
           setIsLoggedIn(true);
-          history.push('/movies');
+          history.push('/movies'); //переход на странийу с фильмами
         } else {
           setErrorMessage(ERROR_AUTH)
         }
@@ -181,9 +186,10 @@ function App() {
       })
       .finally(() => {
         setisLoading(false)
+        setErrorMessage('')
       })
   }
-
+  //обновление данных пользователя
   function updateUserInfo(userName, userEmail) {
     setisLoading(true)
     
@@ -219,6 +225,8 @@ function App() {
     localStorage.removeItem('resultSavedMovies');
     localStorage.removeItem('searchText');
     localStorage.removeItem('checkbox');
+    localStorage.removeItem('count');
+    localStorage.removeItem('renderedMoviesList');
 
     setSearchText({});
     setResultMovies([]);
@@ -241,15 +249,15 @@ function App() {
           <ProtectedRoute
             component={Movies}
             path="/movies"
+            isLoggedIn={isLoggedIn}
             openNavMenu={openNavMenu}
             closeNavMenu={closeNavMenu}
             isMenuOpen={isMenuOpen}
             resultMovies={resultMovies}
-            isLoggedIn={isLoggedIn}
+            setResultMovies={setResultMovies}
             savedUsersMovies={savedUsersMovies}
             saveMovie={saveMovie}
             deleteMovie={deleteMovie}
-            setResultMovies={setResultMovies}
             searchText={searchText}
             setSearchText={setSearchText}
             nameCheckbox='moviesCheckbox'
@@ -260,10 +268,10 @@ function App() {
           <ProtectedRoute
             component={SavedMovies}
             path="/saved-movies"
+            isLoggedIn={isLoggedIn}
             openNavMenu={openNavMenu}
             closeNavMenu={closeNavMenu}
             isMenuOpen={isMenuOpen}
-            isLoggedIn={isLoggedIn}
             savedUsersMovies={savedUsersMovies}
             setSavedUsersMovies={setSavedUsersMovies}
             deleteMovie={deleteMovie}
@@ -272,7 +280,6 @@ function App() {
             setSearchText={setSearchText}
             nameCheckbox='savedMoviesCheckbox'
             setValuesCheckbox={setValuesCheckbox}
-            getUsersMovies={getUsersMovies}
             resultSavedMovies={resultSavedMovies}
             setResultSavedMovies={setResultSavedMovies}
             nameForm='searchMovieInSaved'  />
