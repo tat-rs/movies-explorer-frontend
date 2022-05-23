@@ -85,8 +85,6 @@ function App() {
     tokenCheck();
   }, [isLoggedIn])
 
-  console.log(isLoggedIn)
-
   useEffect(() => {
     if(isLoggedIn && userEmail) {
       localStorage.setItem('result', JSON.stringify(resultMovies));
