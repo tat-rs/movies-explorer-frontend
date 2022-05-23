@@ -150,7 +150,6 @@ function App() {
             email: userEmail
           })
           onLogin(userEmail, userPassword); //авторизация
-          setSuccessMessage("Вы успешно зарегистрированы");
         }
         else {
           setErrorMessage(ERROR_REGISTER)
@@ -158,8 +157,6 @@ function App() {
       })
       .catch(() => setErrorMessage(ERROR_REGISTER))
       .finally(() => {
-        setSuccessMessage('')
-        setErrorMessage('')
         setisLoading(false)
       })
   }
@@ -171,7 +168,6 @@ function App() {
     mainApi.authorize(userEmail, userPassword)
       .then((data) => {
         if(data?.token) {
-          console.log(data)
           localStorage.setItem('email', userEmail);
           setIsLoggedIn(true);
           history.push('/movies'); //переход на странийу с фильмами
@@ -184,7 +180,6 @@ function App() {
       })
       .finally(() => {
         setisLoading(false)
-        setErrorMessage('')
       })
   }
   //обновление данных пользователя
