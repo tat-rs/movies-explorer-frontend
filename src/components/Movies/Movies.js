@@ -17,6 +17,7 @@ function Movies({
   openNavMenu,
   closeNavMenu,
   isMenuOpen,
+  isLoggedIn,
   resultMovies,
   setResultMovies,
   saveMovie,
@@ -137,6 +138,7 @@ function Movies({
   return (
     <>
     <Header
+      isLoggedIn={isLoggedIn}
       openNavMenu={openNavMenu}
       closeNavMenu={closeNavMenu}
       isMenuOpen={isMenuOpen} />

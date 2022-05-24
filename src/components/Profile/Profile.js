@@ -14,6 +14,7 @@ function Profile({
   openNavMenu,
   closeNavMenu,
   isMenuOpen,
+  isLoggedIn,
   logout,
   errorMessage,
   setErrorMessage,
@@ -46,6 +47,7 @@ function Profile({
   return (
     <>
     <Header
+      isLoggedIn={isLoggedIn}
       openNavMenu={openNavMenu}
       closeNavMenu={closeNavMenu}
       isMenuOpen={isMenuOpen}/>

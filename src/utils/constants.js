@@ -1,6 +1,8 @@
 export const URL_MOVIE_API = 'https://api.nomoreparties.co/beatfilm-movies';
 
-export const URL_MAIN_API = 'https://api.movie-explorer22.nomoredomains.work';
+/* export const URL_MAIN_API = 'https://api.movie-explorer22.nomoredomains.work'; */
+
+export const URL_MAIN_API = 'http://localhost:3000';
 
 export const RegExpEmail = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
 

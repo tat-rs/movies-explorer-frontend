@@ -58,23 +58,22 @@ function App() {
 
   //проверка токена пользователя
   function tokenCheck() {
-    if(userEmail){
-      mainApi.getContent()
-        .then((data) => data)
-        .then((res) => {
-          if(res?.email) {
-            localStorage.setItem('email', res.email); //обновили стейт эл. почты пользователя
-            setIsLoggedIn(true); //обновлен статус пользователя - зарегистрирован
-            history.push('/movies'); //переадресация на страницу пользователя
-          }
-        })
-        .catch(err => console.log(err))
-    }
+    mainApi.getContent()
+      .then((data) => data)
+      .then(() => {
+        setIsLoggedIn(true); //обновлен статус пользователя - зарегистрирован
+        history.push('/movies'); //переадресация на страницу пользователя
+      })
+      .catch(err => console.log(err))
   }
 
   useEffect(() => {
+    tokenCheck();
+  }, [])
+
+  useEffect(() => {
     //получаем данные пользователя
-    if(isLoggedIn && userEmail) {
+    if(isLoggedIn) {
       mainApi.getUserInfo()
         .then((userData) => {
           setCurrentUser(userData)
@@ -82,7 +81,6 @@ function App() {
         .catch((err) => console.log(err))
         getUsersMovies();
       }
-    tokenCheck();
   }, [isLoggedIn])
 
   useEffect(() => {
@@ -145,6 +143,7 @@ function App() {
     mainApi.register(userEmail, userName, userPassword)
       .then((res) => {
         if(res) {
+          console.log(res)
           setCurrentUser({
             name: userName,
             email: userEmail
@@ -167,6 +166,7 @@ function App() {
 
     mainApi.authorize(userEmail, userPassword)
       .then((data) => {
+        console.log(data)
         if(data?.token) {
           localStorage.setItem('email', userEmail);
           setIsLoggedIn(true);
@@ -227,7 +227,7 @@ function App() {
     setValuesCheckbox({});
 
     setIsLoggedIn(false);
-    history.push('/signin');
+    history.push('/');
   }
 
   return (
@@ -236,7 +236,11 @@ function App() {
         <Switch>
 
           <Route exact path="/">
-            <Main />
+            <Main
+              isLoggedIn={isLoggedIn}
+              openNavMenu={openNavMenu}
+              closeNavMenu={closeNavMenu}
+              isMenuOpen={isMenuOpen} />
           </Route>
 
           <ProtectedRoute
