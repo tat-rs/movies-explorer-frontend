@@ -68,6 +68,38 @@ function Movies({
     }
   }, [renderedMoviesList])
 
+  function filterWord(list, word) {
+    let filterWordList = []
+      //фильтруем фильмы по ключевому слову
+      list?.forEach(item => {
+        if(item?.nameRU.toLowerCase().includes(word.toLowerCase())) {
+          return filterWordList = [...filterWordList, item]
+        }
+        return filterWordList
+      });
+    return filterWordList
+  }
+
+  function filterCheckbox(list) {
+    let shortList = []
+
+    if(!valuesCheckbox[nameCheckbox] && list?.length !== 0 ) {
+      list.forEach(item => {
+      if(item.duration <= 40) {
+        return shortList = [...shortList, item]
+      }
+      return shortList
+    });
+    return shortList
+    } else if(!Object.keys(searchText).length || !searchText[nameForm] || searchText[nameForm] === "") {
+      return
+    }
+      else {
+      searchMovies(searchText[nameForm])
+    }
+    return shortList
+  }
+
   async function searchMovies(data) {
 
     try {
@@ -75,16 +107,26 @@ function Movies({
       setIsLoading(true)
       const moviesList = await moviesApi.getAllMovies(); //сохраняем все фильмы с сервера
 
-      let list = []
+      /* let list = []
       //фильтруем фильмы по ключевому слову
       moviesList?.forEach(item => {
         if(item?.nameRU.toLowerCase().includes(data.toLowerCase())) {
           return list = [...list, item]
         }
         return list
-      });
-      setResultMovies(list); //обновляем стейт результата поиска
-      setRenderedMoviesList(list.slice(0, limitCount)); //рендерим макс. кол-во карточек, доступные при заданой ширине
+      }); */
+      const res = filterWord(moviesList, data)
+      const check = filterCheckbox(res)
+      
+      /* setResultMovies(res); //обновляем стейт результата поиска
+      setRenderedMoviesList(res.slice(0, limitCount)); //рендерим макс. кол-во карточек, доступные при заданой ширине */
+      if(valuesCheckbox[nameCheckbox]) {
+        setResultMovies(check); //обновляем стейт результата поиска
+        setRenderedMoviesList(check.slice(0, limitCount)); //рендерим макс. кол-во карточек, доступные при заданой ширине
+      } else {
+          setResultMovies(res); //обновляем стейт результата поиска
+          setRenderedMoviesList(res.slice(0, limitCount)); //рендерим макс. кол-во карточек, доступные при заданой ширине
+      }
       setIsLoading(false)
     }
 
@@ -106,7 +148,10 @@ function Movies({
       [name]: checked
     });
 
-    let list = []
+    const a = filterCheckbox(resultMovies)
+    setRenderedMoviesList(a)
+
+    /* let list = []
 
     if(!valuesCheckbox[name] && resultMovies?.length !== 0 ) {
       resultMovies.forEach(item => {
@@ -122,7 +167,7 @@ function Movies({
     }
       else {
       searchMovies(searchText[nameForm])
-    }
+    } */
   }
   //показать больше результат по клике на кнопку
   function addedMoreMovies() {

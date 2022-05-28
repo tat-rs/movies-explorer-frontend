@@ -48,7 +48,7 @@ function Register({
         name="name"
         value={values.name || ""}
         error={errors.name}
-        pattern={RegExpName}
+        pattern="^[а-яА-ЯёЁa-zA-Z\s/-]+$"
         minLength="2"
         maxLength="30"
         title={ERROR_NAME_FORMAT}
@@ -64,7 +64,7 @@ function Register({
         name="email"
         value={values.email || ""} 
         error={errors.email}
-        pattern={RegExpEmail}
+        pattern='[^\s@]+@[^\s@]+\.[^\s@]{2,}$'
         title={ERROR_EMAIL_FORMAT}
         isValid={isValid}
         onChange={handleChange}

@@ -166,7 +166,6 @@ function App() {
 
     mainApi.authorize(userEmail, userPassword)
       .then((data) => {
-        console.log(data)
         if(data?.token) {
           localStorage.setItem('email', userEmail);
           setIsLoggedIn(true);

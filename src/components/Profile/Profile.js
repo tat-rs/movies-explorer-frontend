@@ -44,6 +44,11 @@ function Profile({
     updateUserInfo(values.name, values.email);
   }
 
+  /* console.log(currentUserData.user.name) */
+  console.log('currentUserData.user.name', currentUserData.user.name === values.name)
+  console.log('currentUserData.user.email', currentUserData.user.email === values.email)
+  console.log('isValid', isValid)
+
   return (
     <>
     <Header
@@ -64,7 +69,7 @@ function Profile({
           name="name"
           value={values.name || ''}
           error={errors.name}
-          pattern={RegExpName}
+          pattern="^[а-яА-ЯёЁa-zA-Z\s/-]+$"
           minLength="2"
           maxLength="30"
           title={ERROR_NAME_FORMAT}
@@ -80,7 +85,7 @@ function Profile({
           name="email"
           value={values.email || ''}
           error={errors.email}
-          pattern={RegExpEmail}
+          pattern='[^\s@]+@[^\s@]+\.[^\s@]{2,}$'
           title={ERROR_EMAIL_FORMAT}
           isValid={isValid}
           onChange={handleChange}
@@ -93,7 +98,7 @@ function Profile({
           <button
             className="profile__button link"
             type='submit'
-            disabled={!isValid}>
+            disabled={(!isValid) ? true : false}>
               Редактировать
           </button>
           <button

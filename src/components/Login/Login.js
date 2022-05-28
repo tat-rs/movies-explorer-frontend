@@ -48,7 +48,7 @@ function Login({
         name="email"
         value={values.email || ""} 
         onChange={handleChange}
-        pattern={RegExpEmail}
+        pattern='[^\s@]+@[^\s@]+\.[^\s@]{2,}$'
         title={ERROR_EMAIL_FORMAT}
         isValid={isValid}
         error={errors.email}
