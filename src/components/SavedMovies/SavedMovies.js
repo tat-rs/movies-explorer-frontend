@@ -3,6 +3,8 @@ import SearchForm from "../SearchForm/SearchForm";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import { findMoviesByWord, findShortMovies } from "../../utils/filterSearch";
+import { useEffect, useState } from "react";
 
 function SavedMovies({
   openNavMenu,
@@ -22,15 +24,19 @@ function SavedMovies({
   nameForm
 }) {
 
-  function searchMovies(data) {
+  const [renderedSavedMovies, setRenderedSavedMovies] = useState([]);
 
-    let list = []
-    savedUsersMovies.forEach(item => {
-      if(item?.nameRU.toLowerCase().includes(data.toLowerCase())) {
-        return list = [...list, item]
-      }
-      return list
-    });
+  useEffect(() => {
+    if(valuesCheckbox[nameCheckbox]) {
+      const list = findShortMovies(resultSavedMovies)
+      setRenderedSavedMovies(list);
+    } else {
+      setRenderedSavedMovies(resultSavedMovies)
+    }
+  }, [nameCheckbox, resultSavedMovies, savedUsersMovies, valuesCheckbox])
+
+  function searchMovies(data) {
+    const list = findMoviesByWord(savedUsersMovies, data)
     setResultSavedMovies(list);
   }
 
@@ -43,22 +49,6 @@ function SavedMovies({
       ...valuesCheckbox,
       [name]: checked
     });
-
-    let list = []
-
-    if(!valuesCheckbox[name] && resultSavedMovies?.length > 0) {
-      resultSavedMovies.forEach(item => {
-      if(item.duration <= 40) {
-        return list = [...list, item]
-      }
-      return list
-    });
-    setResultSavedMovies(list);
-    } else if(valuesCheckbox[name] && (!Object.keys(searchText).length || !searchText[nameForm] || searchText[nameForm] === "")) {
-      setResultSavedMovies(savedUsersMovies)
-    } else {
-      searchMovies(searchText[nameForm])
-    }
   }
   
   return (
@@ -82,7 +72,7 @@ function SavedMovies({
             setSearchText={setSearchText} />
             
             <MoviesCardList
-              data={resultSavedMovies}
+              data={renderedSavedMovies}
               savedUsersMovies={savedUsersMovies}
               deleteMovie={deleteMovie} />
             {
@@ -92,7 +82,7 @@ function SavedMovies({
             }
 
             {
-              savedUsersMovies.length !== 0 && resultSavedMovies.length === 0 && (
+              savedUsersMovies.length !== 0 && renderedSavedMovies.length === 0 && (
                 <p className="movies__result">Ничего не найдено</p>
               )
             }
