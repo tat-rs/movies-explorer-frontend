@@ -10,6 +10,16 @@ import "./Movies.css";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import { findMoviesByWord, findShortMovies } from "../../utils/filterSearch";
+import {
+  ADDED_COUNT_MOVIES_MAX,
+  ADDED_COUNT_MOVIES_MIN,
+  COUNT_MOVIES_IN_MAX_SIZE_SCREEN,
+  COUNT_MOVIES_IN_MIDDLE_SIZE_SCREEN,
+  COUNT_MOVIES_IN_MIN_SIZE_SCREEN,
+  MAX_SIZE_SCREEN,
+  MIDDLE_SIZE_SCREEN,
+  MIN_SIZE_SCREEN
+} from "../../utils/constants";
 
 function Movies({
   isLoggedIn,
@@ -17,7 +27,6 @@ function Movies({
   closeNavMenu,
   isMenuOpen,
   isLoading,
-  errorMessage,
   allMoviesList,
   resultMovies,
   setResultMovies,
@@ -44,16 +53,16 @@ function Movies({
   const {width} = useWindowSize();
 
   useEffect(() => {
-    //кол-во карточек при определенной ширине
-    if(width > 768) {
-      setLimitCount(12)
-      setAddedCount(3)
-    } else if(width <= 768 && width > 480) {
-      setLimitCount(8)
-      setAddedCount(2)
-    } else if(width <= 480 && width >= 320) {
-      setLimitCount(5)
-      setAddedCount(2)
+    //кол-во карточек при определенной ширине экрана
+    if(width > MAX_SIZE_SCREEN) {
+      setLimitCount(COUNT_MOVIES_IN_MAX_SIZE_SCREEN)
+      setAddedCount(ADDED_COUNT_MOVIES_MAX)
+    } else if(width <= MAX_SIZE_SCREEN && width > MIDDLE_SIZE_SCREEN) {
+      setLimitCount(COUNT_MOVIES_IN_MIDDLE_SIZE_SCREEN)
+      setAddedCount(ADDED_COUNT_MOVIES_MIN)
+    } else if(width <= MIDDLE_SIZE_SCREEN && width >= MIN_SIZE_SCREEN) {
+      setLimitCount(COUNT_MOVIES_IN_MIN_SIZE_SCREEN)
+      setAddedCount(ADDED_COUNT_MOVIES_MIN)
     }
   }, [width])
 
@@ -151,7 +160,7 @@ function Movies({
                   }
               </>
             ) : (
-              <p className="movies__result">{errorMessage ? errorMessage : "Ничего не найдено"}</p>
+              <p className="movies__result">Ничего не найдено</p>
             )
           }
       </section>

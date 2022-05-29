@@ -11,6 +11,7 @@ import Register from "../Register/Register";
 import SavedMovies from "../SavedMovies/SavedMovies";
 
 import mainApi from "../../utils/MainApi";
+import moviesApi from "../../utils/MoviesApi";
 
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 import { ERROR_AUTH, ERROR_REGISTER, ERROR_SEARCH_MOVIES, ERROR_UPTADE_PROFILE } from "../../utils/constants";
@@ -18,7 +19,6 @@ import { ERROR_AUTH, ERROR_REGISTER, ERROR_SEARCH_MOVIES, ERROR_UPTADE_PROFILE }
 import {useScrollLock} from "../../hooks/useScroll";
 
 import "./App.css";
-import moviesApi from "../../utils/MoviesApi";
 
 function App() {
 
@@ -152,7 +152,6 @@ function App() {
     mainApi.register(userEmail, userName, userPassword)
       .then((res) => {
         if(res) {
-          console.log(res)
           setCurrentUser({
             name: userName,
             email: userEmail
@@ -234,6 +233,7 @@ function App() {
     setSearchText({});
     setResultMovies([]);
     setResultSavedMovies([]);
+    setSavedUsersMovies([]);
     setValuesCheckbox({});
 
     setIsLoggedIn(false);
@@ -301,6 +301,7 @@ function App() {
             closeNavMenu={closeNavMenu}
             isMenuOpen={isMenuOpen}
             logout={signOutClick}
+            isLoading={isLoading}
             isLoggedIn={isLoggedIn}
             errorMessage={errorMessage}
             setErrorMessage={setErrorMessage}
@@ -312,6 +313,7 @@ function App() {
             <Login
               title="Рады видеть!"
               textOfButton={isLoading ? "Войти..." : "Войти"}
+              isLoading={isLoading}
               nameForm="sign-in" 
               onLogin={onLogin}
               errorMessage={errorMessage}
@@ -322,6 +324,7 @@ function App() {
             <Register
               title="Добро пожаловать!"
               textOfButton={isLoading ? "Регистрация..." : "Зарегистрироваться"}
+              isLoading={isLoading}
               nameForm="sign-up"
               onRegister={onRegister}
               errorMessage={errorMessage}

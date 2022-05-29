@@ -6,7 +6,7 @@ import Header from "../Header/Header";
 import Input from "../Input/Input";
 
 import { CurrentUserContext } from "../../context/CurrentUserContext";
-import { ERROR_EMAIL_FORMAT, ERROR_NAME_FORMAT, RegExpEmail, RegExpName } from "../../utils/constants";
+import { ERROR_EMAIL_FORMAT, ERROR_NAME_FORMAT } from "../../utils/constants";
 
 import "./Profile.css";
 
@@ -20,7 +20,8 @@ function Profile({
   setErrorMessage,
   updateUserInfo,
   successMessage,
-  setSuccessMessage
+  setSuccessMessage,
+  isLoading
 }) {
 
   const currentUserData = useContext(CurrentUserContext);
@@ -76,6 +77,7 @@ function Profile({
           title={ERROR_NAME_FORMAT}
           isValid={isValid}
           onChange={handleChange}
+          disabled={isLoading}
           required />
         <span className="profile__line"></span>
         <Input
@@ -90,6 +92,7 @@ function Profile({
           title={ERROR_EMAIL_FORMAT}
           isValid={isValid}
           onChange={handleChange}
+          disabled={isLoading}
           required />
         </div>
         <span className={`${successMessage ? 'form__success-text' : 'form__error' }`}>

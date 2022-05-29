@@ -4,7 +4,7 @@ import AuthForm from "../AuthForm/AuthForm";
 import Input from "../Input/Input";
 
 import { useForm } from "../../hooks/useForm";
-import { ERROR_EMAIL_FORMAT, ERROR_NAME_FORMAT, RegExpEmail, RegExpName } from "../../utils/constants";
+import { ERROR_EMAIL_FORMAT, ERROR_NAME_FORMAT } from "../../utils/constants";
 
 function Register({
   nameForm,
@@ -13,6 +13,7 @@ function Register({
   onRegister,
   errorMessage,
   setErrorMessage,
+  isLoading
 }) {
 
   const {values, errors, isValid, handleChange, resetForm} = useForm();
@@ -54,6 +55,7 @@ function Register({
         title={ERROR_NAME_FORMAT}
         isValid={isValid}
         onChange={handleChange}
+        disabled={isLoading}
         required
       />
       <Input 
@@ -68,6 +70,7 @@ function Register({
         title={ERROR_EMAIL_FORMAT}
         isValid={isValid}
         onChange={handleChange}
+        disabled={isLoading}
         required
       />
       <Input 
@@ -80,6 +83,7 @@ function Register({
         onChange={handleChange}
         error={errors.password}
         isValid={isValid}
+        disabled={isLoading}
         required
       />
     </AuthForm>

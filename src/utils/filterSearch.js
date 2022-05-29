@@ -1,3 +1,5 @@
+import { MAX_DURATION_SHORTFILMS } from "./constants";
+
 export function findMoviesByWord(moviesList, searchText) {
   let list = [];
   moviesList?.forEach(item => {
@@ -12,7 +14,7 @@ export function findMoviesByWord(moviesList, searchText) {
 export function findShortMovies(moviesList) {
   let list = []
   moviesList?.forEach(item => {
-    if(item.duration <= 40) {
+    if(item.duration <= MAX_DURATION_SHORTFILMS) {
       return list = [...list, item]
     }
     return list

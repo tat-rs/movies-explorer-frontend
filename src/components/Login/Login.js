@@ -13,6 +13,7 @@ function Login({
   onLogin,
   errorMessage,
   setErrorMessage,
+  isLoading
 }) {
   
   const {values, errors, isValid, handleChange, resetForm} = useForm();
@@ -52,6 +53,7 @@ function Login({
         title={ERROR_EMAIL_FORMAT}
         isValid={isValid}
         error={errors.email}
+        disabled={isLoading}
         required />
 
       <Input
@@ -64,6 +66,7 @@ function Login({
         onChange={handleChange}
         isValid={isValid}
         error={errors.password}
+        disabled={isLoading}
         required />
 
     </AuthForm>

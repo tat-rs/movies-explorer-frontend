@@ -14,7 +14,8 @@ function Input({
   pattern,
   minLength,
   maxLength,
-  title
+  title,
+  disabled
 }) {
 
   return (
@@ -22,18 +23,19 @@ function Input({
       <label className={`label ${className ? `label_type_${className}` : ''}`} htmlFor={id}>
         {labelText}
         <input
-        className={`input ${className ? `input_type_${className}` : ''}`}
-        id={id}
-        type={type}
-        name={name}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        required={required}
-        pattern={pattern}
-        minLength={minLength}
-        maxLength={maxLength}
-        title={title} />
+          className={`input ${className ? `input_type_${className}` : ''}`}
+          id={id}
+          type={type}
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          required={required}
+          pattern={pattern}
+          minLength={minLength}
+          maxLength={maxLength}
+          title={title}
+          disabled={disabled} />
     </label>
     <span className={`error ${className ? `error_type_${className}` : ''}`}>{error && title ? title : (error || '')}</span>
   </div>
