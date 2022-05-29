@@ -13,15 +13,20 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import mainApi from "../../utils/MainApi";
 
 import { CurrentUserContext } from "../../context/CurrentUserContext";
-import { ERROR_AUTH, ERROR_REGISTER, ERROR_UPTADE_PROFILE } from "../../utils/constants";
+import { ERROR_AUTH, ERROR_REGISTER, ERROR_SEARCH_MOVIES, ERROR_UPTADE_PROFILE } from "../../utils/constants";
 
 import {useScrollLock} from "../../hooks/useScroll";
 
 import "./App.css";
+import moviesApi from "../../utils/MoviesApi";
 
 function App() {
 
   const [isMenuOpen, setMenuOpen] = useState(false);
+  //список всех фильмов beastme-film
+  const [allMoviesList, setAllMoviesList] = useState (
+    JSON.parse(localStorage.getItem('allMovies')) || []
+  )
   //результат поиска по всем фильмам
   const [resultMovies, setResultMovies] = useState (
     JSON.parse(localStorage.getItem('result')) || []
@@ -74,23 +79,27 @@ function App() {
   useEffect(() => {
     //получаем данные пользователя
     if(isLoggedIn) {
-      mainApi.getUserInfo()
-        .then((userData) => {
-          setCurrentUser(userData)
+      Promise.all([mainApi.getUserInfo(), moviesApi.getAllMovies()])
+        .then(([userInfo, allMovies]) => {
+          setisLoading(true)
+          setCurrentUser(userInfo)
+          setAllMoviesList(allMovies)
         })
-        .catch((err) => console.log(err))
+        .catch((err) => setErrorMessage(ERROR_SEARCH_MOVIES))
+        .finally(() => setisLoading(false))
         getUsersMovies();
       }
   }, [isLoggedIn])
 
   useEffect(() => {
     if(isLoggedIn && userEmail) {
+      localStorage.setItem('allMovies', JSON.stringify(allMoviesList));
       localStorage.setItem('result', JSON.stringify(resultMovies));
       localStorage.setItem('searchText', JSON.stringify(searchText));
       localStorage.setItem('checkbox', JSON.stringify(valuesCheckbox));
       localStorage.setItem('resultSavedMovies', JSON.stringify(resultSavedMovies));
     }
-  }, [isLoggedIn, resultMovies, searchText, valuesCheckbox, resultSavedMovies])
+  }, [isLoggedIn, resultMovies, searchText, valuesCheckbox, resultSavedMovies, allMoviesList, userEmail])
 
   //получаем сохраненные фильмы
   function getUsersMovies() {
@@ -213,12 +222,14 @@ function App() {
       .catch(err => console.log(err));
 
     localStorage.removeItem('email');
+    localStorage.removeItem('allMovies');
     localStorage.removeItem('result');
     localStorage.removeItem('resultSavedMovies');
     localStorage.removeItem('searchText');
     localStorage.removeItem('checkbox');
     localStorage.removeItem('count');
     localStorage.removeItem('renderedMoviesList');
+    localStorage.removeItem('shortMovies');
 
     setSearchText({});
     setResultMovies([]);
@@ -249,6 +260,9 @@ function App() {
             openNavMenu={openNavMenu}
             closeNavMenu={closeNavMenu}
             isMenuOpen={isMenuOpen}
+            isLoading={isLoading}
+            errorMessage={errorMessage}
+            allMoviesList={allMoviesList}
             resultMovies={resultMovies}
             setResultMovies={setResultMovies}
             savedUsersMovies={savedUsersMovies}

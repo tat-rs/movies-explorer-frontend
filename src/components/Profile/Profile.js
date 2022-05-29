@@ -44,10 +44,11 @@ function Profile({
     updateUserInfo(values.name, values.email);
   }
 
-  /* console.log(currentUserData.user.name) */
-  console.log('currentUserData.user.name', currentUserData.user.name === values.name)
-  console.log('currentUserData.user.email', currentUserData.user.email === values.email)
-  console.log('isValid', isValid)
+  useEffect(() => {
+    if(currentUserData.user.name === values.name && currentUserData.user.email === values.email) {
+      setIsValid(false)
+    }
+  }, [values.email, values.name])
 
   return (
     <>
@@ -98,7 +99,7 @@ function Profile({
           <button
             className="profile__button link"
             type='submit'
-            disabled={(!isValid) ? true : false}>
+            disabled={!isValid}>
               Редактировать
           </button>
           <button

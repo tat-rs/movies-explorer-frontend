@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import moviesApi from "../../utils/MoviesApi";
-
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 import Header from "../Header/Header";
@@ -10,14 +8,17 @@ import Preloader from "../Preloader/Preloader";
 
 import "./Movies.css";
 
-import { ERROR_SEARCH_MOVIES } from "../../utils/constants";
 import { useWindowSize } from "../../hooks/useWindowSize";
+import { findMoviesByWord, findShortMovies } from "../../utils/filterSearch";
 
 function Movies({
+  isLoggedIn,
   openNavMenu,
   closeNavMenu,
   isMenuOpen,
-  isLoggedIn,
+  isLoading,
+  errorMessage,
+  allMoviesList,
   resultMovies,
   setResultMovies,
   saveMovie,
@@ -31,14 +32,13 @@ function Movies({
   nameForm
 }) {
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [index, setIndex] = useState(localStorage.getItem('count') || '0');
   const [limitCount, setLimitCount] = useState(0);
   const [addedCount, setAddedCount] = useState(0);
   //массив с отрендеринными карточками
   const [renderedMoviesList, setRenderedMoviesList] = useState(
     JSON.parse(localStorage.getItem('renderedMoviesList')) || []);
+  const [shortMovies, setShortMovies] = useState(JSON.parse(localStorage.getItem('shortMovies')) || []);
   const [isActiveBtn, setIsActiveBtn] = useState(false);
 
   const {width} = useWindowSize();
@@ -58,85 +58,38 @@ function Movies({
   }, [width])
 
   useEffect(() => {
+    if(valuesCheckbox[nameCheckbox]) {
+      const list = findShortMovies(resultMovies)
+      setShortMovies(list);
+      setRenderedMoviesList(list.slice(0, index))
+    } else {
+      setShortMovies([])
+      setRenderedMoviesList(resultMovies.slice(0, index))
+    }
+  }, [index, nameCheckbox, resultMovies, valuesCheckbox])
+
+  useEffect(() => {
+    localStorage.setItem('shortMovies', JSON.stringify(shortMovies));
+  }, [shortMovies, valuesCheckbox])
+
+  useEffect(() => {
     localStorage.setItem('count', index);
-    localStorage.setItem('renderedMoviesList', JSON.stringify(renderedMoviesList));
+    localStorage.setItem('renderedMoviesList', JSON.stringify(renderedMoviesList.slice(0, index)));
 
-    if(renderedMoviesList.length < resultMovies.length) {
-      setIsActiveBtn(true);
-    } else if(renderedMoviesList.length === resultMovies.length) {
-      setIsActiveBtn(false);
-    }
-  }, [renderedMoviesList])
-
-  function filterWord(list, word) {
-    let filterWordList = []
-      //фильтруем фильмы по ключевому слову
-      list?.forEach(item => {
-        if(item?.nameRU.toLowerCase().includes(word.toLowerCase())) {
-          return filterWordList = [...filterWordList, item]
-        }
-        return filterWordList
-      });
-    return filterWordList
-  }
-
-  function filterCheckbox(list) {
-    let shortList = []
-
-    if(!valuesCheckbox[nameCheckbox] && list?.length !== 0 ) {
-      list.forEach(item => {
-      if(item.duration <= 40) {
-        return shortList = [...shortList, item]
-      }
-      return shortList
-    });
-    return shortList
-    } else if(!Object.keys(searchText).length || !searchText[nameForm] || searchText[nameForm] === "") {
-      return
-    }
-      else {
-      searchMovies(searchText[nameForm])
-    }
-    return shortList
-  }
-
-  async function searchMovies(data) {
-
-    try {
-      setIndex(limitCount)
-      setIsLoading(true)
-      const moviesList = await moviesApi.getAllMovies(); //сохраняем все фильмы с сервера
-
-      /* let list = []
-      //фильтруем фильмы по ключевому слову
-      moviesList?.forEach(item => {
-        if(item?.nameRU.toLowerCase().includes(data.toLowerCase())) {
-          return list = [...list, item]
-        }
-        return list
-      }); */
-      const res = filterWord(moviesList, data)
-      const check = filterCheckbox(res)
-      
-      /* setResultMovies(res); //обновляем стейт результата поиска
-      setRenderedMoviesList(res.slice(0, limitCount)); //рендерим макс. кол-во карточек, доступные при заданой ширине */
-      if(valuesCheckbox[nameCheckbox]) {
-        setResultMovies(check); //обновляем стейт результата поиска
-        setRenderedMoviesList(check.slice(0, limitCount)); //рендерим макс. кол-во карточек, доступные при заданой ширине
+    if((!valuesCheckbox[nameCheckbox] && renderedMoviesList.length < resultMovies.length) ||
+      (valuesCheckbox[nameCheckbox && renderedMoviesList.length < shortMovies.length])) {
+        setIsActiveBtn(true);
       } else {
-          setResultMovies(res); //обновляем стейт результата поиска
-          setRenderedMoviesList(res.slice(0, limitCount)); //рендерим макс. кол-во карточек, доступные при заданой ширине
+        setIsActiveBtn(false);
       }
-      setIsLoading(false)
-    }
+  }, [index, limitCount, renderedMoviesList, resultMovies, shortMovies])
 
-    catch {
-      setIndex(0)
-      setErrorMessage(ERROR_SEARCH_MOVIES)
-      setIsLoading(false)
-    }
-    
+  function searchMovies(data) {
+    setIndex(limitCount)
+    const list = findMoviesByWord(allMoviesList, data)
+    setResultMovies(list); //обновляем стейт результата поиска
   }
+
   //фильтруем результат поиска в зависимости от состояния чекбокса
   function onChangeCheckbox(evt) {
 
@@ -147,35 +100,15 @@ function Movies({
       ...valuesCheckbox,
       [name]: checked
     });
-
-    const a = filterCheckbox(resultMovies)
-    setRenderedMoviesList(a)
-
-    /* let list = []
-
-    if(!valuesCheckbox[name] && resultMovies?.length !== 0 ) {
-      resultMovies.forEach(item => {
-      if(item.duration <= 40) {
-        return list = [...list, item]
-      }
-      return list
-    });
-    setResultMovies(list);
-    setRenderedMoviesList(list.slice(0, limitCount));
-    } else if(!Object.keys(searchText).length || !searchText[nameForm] || searchText[nameForm] === "") {
-      return
-    }
-      else {
-      searchMovies(searchText[nameForm])
-    } */
   }
+
   //показать больше результат по клике на кнопку
   function addedMoreMovies() {
-    setRenderedMoviesList(resultMovies.slice(0, index + addedCount))
-    if(index - addedCount < resultMovies.length) {
+    setRenderedMoviesList(renderedMoviesList.slice(0, index + addedCount))
+    if(index - addedCount < renderedMoviesList.length) {
       setIndex(index + addedCount)
     } else {
-      setIndex(resultMovies.length)
+      setIndex(renderedMoviesList.length)
       setIsActiveBtn(false)
     }
   }

@@ -4,7 +4,7 @@ import AuthForm from "../AuthForm/AuthForm";
 import Input from "../Input/Input";
 
 import { useForm } from "../../hooks/useForm";
-import { ERROR_EMAIL_FORMAT, RegExpEmail } from "../../utils/constants";
+import { ERROR_EMAIL_FORMAT } from "../../utils/constants";
 
 function Login({
   nameForm,
