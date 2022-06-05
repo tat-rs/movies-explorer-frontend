@@ -1,22 +1,31 @@
-import { useState } from "react";
+import { useEffect } from "react";
+
 import AuthForm from "../AuthForm/AuthForm";
 import Input from "../Input/Input";
+
+import { useForm } from "../../hooks/useForm";
+import { ERROR_EMAIL_FORMAT } from "../../utils/constants";
 
 function Login({
   nameForm,
   title,
-  textOfButton
+  textOfButton,
+  onLogin,
+  errorMessage,
+  setErrorMessage,
+  isLoading
 }) {
-  const [values, setValues] = useState({});
+  
+  const {values, errors, isValid, handleChange, resetForm} = useForm();
 
-  function handleChangeInput(evt) {
-    let name = evt.target.name
-    let value = evt.target.value
+  useEffect(() => {
+    resetForm()
+    setErrorMessage('')
+  }, []);
 
-    setValues({
-      ...values,
-      [name] : value,
-    })
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onLogin(values.email, values.password);
   }
 
   return (
@@ -26,7 +35,12 @@ function Login({
       nameForm={nameForm}
       text="Ещё не зарегистрированы?"
       textOfLink="Регистрация"
-      link="/signup">
+      link="/signup"
+      isValid={isValid}
+      onSubmit={handleSubmit}
+      errorMessage={errorMessage}
+      setErrorMessage={setErrorMessage} >
+
       <Input 
         className="auth-form"
         id="user-email"
@@ -34,9 +48,14 @@ function Login({
         type="email"
         name="email"
         value={values.email || ""} 
-        onChange={handleChangeInput}
-        required
-      />
+        onChange={handleChange}
+        pattern='[^\s@]+@[^\s@]+\.[^\s@]{2,}$'
+        title={ERROR_EMAIL_FORMAT}
+        isValid={isValid}
+        error={errors.email}
+        disabled={isLoading}
+        required />
+
       <Input
         className="auth-form input_not-underline"
         id="user-password"
@@ -44,9 +63,12 @@ function Login({
         type="password"
         name="password"
         value={values.password || ""} 
-        onChange={handleChangeInput}
-        required
-      />
+        onChange={handleChange}
+        isValid={isValid}
+        error={errors.password}
+        disabled={isLoading}
+        required />
+
     </AuthForm>
   )
 }

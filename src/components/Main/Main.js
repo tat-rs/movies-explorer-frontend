@@ -7,10 +7,19 @@ import Techs from "../Techs/Techs";
 
 import "./Main.css";
 
-function Main() {
+function Main({
+  isLoggedIn,
+  openNavMenu,
+  closeNavMenu,
+  isMenuOpen
+}) {
   return (
     <>
-      <Header />
+      <Header
+      isLoggedIn={isLoggedIn}
+      openNavMenu={openNavMenu}
+      closeNavMenu={closeNavMenu}
+      isMenuOpen={isMenuOpen} />
       <main className="content">
         <Promo />
         <AboutProject />

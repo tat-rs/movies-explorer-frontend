@@ -21,10 +21,22 @@ function AboutMe() {
             </div>
             <ul className="student__list list">
               <li className="list__item">
-                <a className="list__link link" href="https://facebook.com">Facebook</a>
+                <a
+                  className="list__link link"
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noreferrer">
+                    Facebook
+                </a>
               </li>
               <li className="list__item">
-              <a className="list__link link" href="https://github.com/tat-rs">Github</a>
+              <a
+                className="list__link link"
+                href="https://github.com/tat-rs"
+                target="_blank"
+                rel="noreferrer">
+                  Github
+                </a>
               </li>
             </ul>
           </div>

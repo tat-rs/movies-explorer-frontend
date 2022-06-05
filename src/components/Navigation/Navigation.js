@@ -40,7 +40,7 @@ function Navigation({
             </NavLink>
           </li>
         </ul>
-        <Link to="/profile" className="nav__profile-btn link">
+        <Link to="/profile" className="nav__profile-btn link" onClick={closeNavMenu}>
             <p className="nav__profile-btn__text">Аккаунт</p>
             <img className="nav__profile-btn__icon" src={ProfileIcon} alt="Иконка" />
         </Link>

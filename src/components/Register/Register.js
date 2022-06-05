@@ -1,22 +1,31 @@
-import { useState } from "react";
+import { useEffect } from "react";
+
 import AuthForm from "../AuthForm/AuthForm";
 import Input from "../Input/Input";
+
+import { useForm } from "../../hooks/useForm";
+import { ERROR_EMAIL_FORMAT, ERROR_NAME_FORMAT } from "../../utils/constants";
 
 function Register({
   nameForm,
   title,
-  textOfButton
+  textOfButton,
+  onRegister,
+  errorMessage,
+  setErrorMessage,
+  isLoading
 }) {
-  const [values, setValues] = useState({});
 
-  function handleChangeInput(evt) {
-    let name = evt.target.name
-    let value = evt.target.value
+  const {values, errors, isValid, handleChange, resetForm} = useForm();
 
-    setValues({
-      ...values,
-      [name] : value,
-    })
+  useEffect(() => {
+    resetForm()
+    setErrorMessage('')
+  }, [])
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onRegister(values.email, values.name, values.password);
   }
 
   return (
@@ -26,15 +35,27 @@ function Register({
       nameForm={nameForm}
       text="Уже зарегистрированы?"
       textOfLink="Войти"
-      link="/signin">
+      link="/signin"
+      isValid={isValid}
+      onSubmit={handleSubmit}
+      errorMessage={errorMessage}
+      setErrorMessage={setErrorMessage} >
+
       <Input 
         className="auth-form"
         id="user-name"
         labelText="Имя"
         type="text"
         name="name"
-        value={values.name || ""} 
-        onChange={handleChangeInput}
+        value={values.name || ""}
+        error={errors.name}
+        pattern="^[а-яА-ЯёЁa-zA-Z\s/-]+$"
+        minLength="2"
+        maxLength="30"
+        title={ERROR_NAME_FORMAT}
+        isValid={isValid}
+        onChange={handleChange}
+        disabled={isLoading}
         required
       />
       <Input 
@@ -44,7 +65,12 @@ function Register({
         type="email"
         name="email"
         value={values.email || ""} 
-        onChange={handleChangeInput}
+        error={errors.email}
+        pattern='[^\s@]+@[^\s@]+\.[^\s@]{2,}$'
+        title={ERROR_EMAIL_FORMAT}
+        isValid={isValid}
+        onChange={handleChange}
+        disabled={isLoading}
         required
       />
       <Input 
@@ -54,8 +80,10 @@ function Register({
         type="password"
         name="password"
         value={values.password || ""} 
-        onChange={handleChangeInput}
-        error="Что-то пошло не так"
+        onChange={handleChange}
+        error={errors.password}
+        isValid={isValid}
+        disabled={isLoading}
         required
       />
     </AuthForm>

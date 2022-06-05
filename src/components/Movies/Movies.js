@@ -6,95 +6,163 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
 
-import Pic1 from "../../images/pic-1.png";
-import Pic2 from "../../images/pic-2.png";
-import Pic3 from "../../images/pic-3.png";
-import Pic4 from "../../images/pic-4.png";
-
 import "./Movies.css";
 
-const data = [
-  {
-    id: 1,
-    image: Pic1,
-    nameRU: "33 слова о дизайне",
-    duration: "1ч 20м",
-  },
-  {
-    id: 2,
-    image: Pic2,
-    nameRU: "Киноальманах «100 лет дизайна»",
-    duration: "1ч 42м",
-  },
-  {
-    id: 3,
-    image: Pic3,
-    nameRU: "В погоне за Бенкси",
-    duration: "1ч 42м",
-  },
-  {
-    id: 4,
-    image: Pic4,
-    nameRU: "Баския: Взрыв реальности",
-    duration: "1ч 42м",
-  },
-  {
-    id: 5,
-    image: Pic1,
-    nameRU: "33 слова о дизайне",
-    duration: "1ч 42м",
-  },
-  {
-    id: 6,
-    image: Pic2,
-    nameRU: "Киноальманах «100 лет дизайна»",
-    duration: "1ч 42м",
-  },
-  {
-    id: 7,
-    image: Pic3,
-    nameRU: "В погоне за Бенкси",
-    duration: "1ч 42м",
-  },
-  {
-    id: 8,
-    image: Pic4,
-    nameRU: "Баския: Взрыв реальности Баския: Взрыв реальности Баския: Взрыв реальности Баския: Взрыв реальности",
-    duration: "1ч 42м",
-  }
-]
+import { useWindowSize } from "../../hooks/useWindowSize";
+import { findMoviesByWord, findShortMovies } from "../../utils/filterSearch";
+import {
+  ADDED_COUNT_MOVIES_MAX,
+  ADDED_COUNT_MOVIES_MIN,
+  COUNT_MOVIES_IN_MAX_SIZE_SCREEN,
+  COUNT_MOVIES_IN_MIDDLE_SIZE_SCREEN,
+  COUNT_MOVIES_IN_MIN_SIZE_SCREEN,
+  MAX_SIZE_SCREEN,
+  MIDDLE_SIZE_SCREEN,
+  MIN_SIZE_SCREEN
+} from "../../utils/constants";
 
 function Movies({
+  isLoggedIn,
   openNavMenu,
   closeNavMenu,
-  isMenuOpen
+  isMenuOpen,
+  isLoading,
+  allMoviesList,
+  resultMovies,
+  setResultMovies,
+  saveMovie,
+  savedUsersMovies,
+  deleteMovie,
+  searchText,
+  setSearchText,
+  nameCheckbox,
+  valuesCheckbox,
+  setValuesCheckbox,
+  nameForm
 }) {
-  const [isLoading, setIsLoading] = useState(true);
+
+  const [index, setIndex] = useState(localStorage.getItem('count') || '0');
+  const [limitCount, setLimitCount] = useState(0);
+  const [addedCount, setAddedCount] = useState(0);
+  //массив с отрендеринными карточками
+  const [renderedMoviesList, setRenderedMoviesList] = useState(
+    JSON.parse(localStorage.getItem('renderedMoviesList')) || []);
+  const [shortMovies, setShortMovies] = useState(JSON.parse(localStorage.getItem('shortMovies')) || []);
+  const [isActiveBtn, setIsActiveBtn] = useState(false);
+
+  const {width} = useWindowSize();
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000)
-  }, [])
+    //кол-во карточек при определенной ширине экрана
+    if(width > MAX_SIZE_SCREEN) {
+      setLimitCount(COUNT_MOVIES_IN_MAX_SIZE_SCREEN)
+      setAddedCount(ADDED_COUNT_MOVIES_MAX)
+    } else if(width <= MAX_SIZE_SCREEN && width > MIDDLE_SIZE_SCREEN) {
+      setLimitCount(COUNT_MOVIES_IN_MIDDLE_SIZE_SCREEN)
+      setAddedCount(ADDED_COUNT_MOVIES_MIN)
+    } else if(width <= MIDDLE_SIZE_SCREEN && width >= MIN_SIZE_SCREEN) {
+      setLimitCount(COUNT_MOVIES_IN_MIN_SIZE_SCREEN)
+      setAddedCount(ADDED_COUNT_MOVIES_MIN)
+    }
+  }, [width])
+
+  useEffect(() => {
+    if(valuesCheckbox[nameCheckbox]) {
+      const list = findShortMovies(resultMovies)
+      setShortMovies(list);
+      setRenderedMoviesList(list.slice(0, index))
+    } else {
+      setShortMovies([])
+      setRenderedMoviesList(resultMovies.slice(0, index))
+    }
+  }, [index, nameCheckbox, resultMovies, valuesCheckbox])
+
+  useEffect(() => {
+    localStorage.setItem('shortMovies', JSON.stringify(shortMovies));
+  }, [shortMovies, valuesCheckbox])
+
+  useEffect(() => {
+    localStorage.setItem('count', index);
+    localStorage.setItem('renderedMoviesList', JSON.stringify(renderedMoviesList.slice(0, index)));
+
+    if((!valuesCheckbox[nameCheckbox] && renderedMoviesList.length < resultMovies.length) ||
+      (valuesCheckbox[nameCheckbox && renderedMoviesList.length < shortMovies.length])) {
+        setIsActiveBtn(true);
+      } else {
+        setIsActiveBtn(false);
+      }
+  }, [index, limitCount, renderedMoviesList, resultMovies, shortMovies])
+
+  function searchMovies(data) {
+    setIndex(limitCount)
+    const list = findMoviesByWord(allMoviesList, data)
+    setResultMovies(list); //обновляем стейт результата поиска
+  }
+
+  //фильтруем результат поиска в зависимости от состояния чекбокса
+  function onChangeCheckbox(evt) {
+
+    let name = evt?.target.name;
+    let checked = evt?.target.checked;
+
+    setValuesCheckbox({
+      ...valuesCheckbox,
+      [name]: checked
+    });
+  }
+
+  //показать больше результат по клике на кнопку
+  function addedMoreMovies() {
+    setRenderedMoviesList(renderedMoviesList.slice(0, index + addedCount))
+    if(index - addedCount < renderedMoviesList.length) {
+      setIndex(index + addedCount)
+    } else {
+      setIndex(renderedMoviesList.length)
+      setIsActiveBtn(false)
+    }
+  }
+
   return (
     <>
     <Header
+      isLoggedIn={isLoggedIn}
       openNavMenu={openNavMenu}
       closeNavMenu={closeNavMenu}
       isMenuOpen={isMenuOpen} />
 
       <section className="movies page__movies">
-        <SearchForm />
-        {
-          isLoading ? (
-            <Preloader />
-          ) : (
-            <>
-              <MoviesCardList data={data}/>
-              <button className="movies__button button">Ещё</button>
-            </>
-          )
-        }
+        <SearchForm
+          nameCheckbox={nameCheckbox}
+          nameForm={nameForm}
+          valuesCheckbox={valuesCheckbox}
+          onChangeCheckbox={onChangeCheckbox}
+          list={resultMovies}
+          setList={setResultMovies}
+          searchMovies={searchMovies}
+          resultMovies={resultMovies}
+          searchText={searchText}
+          setSearchText={setSearchText} />
+
+          {
+            isLoading ? (
+              <Preloader />
+            ) : renderedMoviesList.length > 0 ? (
+              <>
+                <MoviesCardList
+                  data={renderedMoviesList}
+                  saveMovie={saveMovie}
+                  deleteMovie={deleteMovie} 
+                  savedUsersMovies={savedUsersMovies} />
+                  {
+                    isActiveBtn && (
+                      <button className="movies__button button" onClick={addedMoreMovies}>Ещё</button>
+                    )
+                  }
+              </>
+            ) : (
+              <p className="movies__result">Ничего не найдено</p>
+            )
+          }
       </section>
     <Footer />
     </>
