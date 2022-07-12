@@ -23,4 +23,4 @@
     * Функциональные компоненты;
     * React hooks(useState, useEffect);
 
-[Ссылка на сайт](https://movie-explorer22.nomoredomains.work/)
+[Ссылка на сайт](https://movie-explorer22.herokuapp.com)
