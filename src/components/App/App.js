@@ -39,7 +39,10 @@ function App() {
   const [savedUsersMovies, setSavedUsersMovies] = useState([]);
   //объект со значением инпута поиска
   const [searchText, setSearchText] = useState (
-    JSON.parse(localStorage.getItem('searchText')) || {}
+    JSON.parse(localStorage.getItem('searchText')) || {
+      searchMovieInAll: '',
+      searchMovieInSaved: ''
+    }
   )
   //состояние чекбокса
   const [valuesCheckbox, setValuesCheckbox] = useState(
