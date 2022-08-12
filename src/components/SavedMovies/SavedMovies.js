@@ -42,7 +42,7 @@ function SavedMovies({
   useEffect(() => {
     if(searchText[nameForm] === '' && !nameCheckbox) {
       setRenderedSavedMovies(savedUsersMovies)
-    } else if(valuesCheckbox[nameCheckbox]) {
+    } else if((searchText[nameForm] !== '' || searchText[nameForm] === '') && valuesCheckbox[nameCheckbox]) {
       const list = findShortMovies(resultSavedMovies)
       setRenderedSavedMovies(list);
     } else {
