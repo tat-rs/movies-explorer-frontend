@@ -27,7 +27,22 @@ function SavedMovies({
   const [renderedSavedMovies, setRenderedSavedMovies] = useState([]);
 
   useEffect(() => {
-    if(valuesCheckbox[nameCheckbox]) {
+    return () => {
+      setValuesCheckbox({
+        ...valuesCheckbox,
+        [nameCheckbox]: !valuesCheckbox
+      });
+      setSearchText({
+        ...searchText,
+        [nameForm]: ''
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    if(searchText[nameForm] === '' && !nameCheckbox) {
+      setRenderedSavedMovies(savedUsersMovies)
+    } else if(valuesCheckbox[nameCheckbox]) {
       const list = findShortMovies(resultSavedMovies)
       setRenderedSavedMovies(list);
     } else {
