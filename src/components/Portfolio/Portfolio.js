@@ -36,7 +36,7 @@ function Portfolio() {
         <li className="portfolio__list-item link">
           <a
             className="portfolio__list-link"
-            href="https://movie-explorer22.herokuapp.com"
+            href="https://mesto22.herokuapp.com/"
             target="_blank"
             rel="noreferrer">
               Одностраничное приложение
