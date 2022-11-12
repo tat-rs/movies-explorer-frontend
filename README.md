@@ -48,4 +48,4 @@ __4. Собрать проект__
 
 ## Ссылка на сайт
 
-Проект доступен по ссылке: <a href="https://movie-explorer22.herokuapp.com" target="_blank" rel="noopener">https://movie-explorer22.herokuapp.com</a>
+Проект доступен по ссылке: <a href="https://movies-explorer-frontend-teal.vercel.app" target="_blank" rel="noopener">https://movies-explorer-frontend-teal.vercel.app</a>
