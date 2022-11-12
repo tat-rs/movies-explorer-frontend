@@ -1,6 +1,6 @@
 export const URL_MOVIE_API = 'https://api.nomoreparties.co/beatfilm-movies';
 
-export const URL_MAIN_API = 'https://movies-explorer-api-six.vercel.app';
+export const URL_MAIN_API = 'https://movies-explorer-api-lime.vercel.app';
 
 export const ERROR_EMAIL_FORMAT = "Введите e-mail в формате: ivanov@yandex.ru";
 
